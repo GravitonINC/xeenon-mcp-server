@@ -6,7 +6,6 @@
 
 This project implements an [MCP server](https://spec.modelcontextprotocol.io/) for the [Xeenon API](https://xeenon.xyz).
 
-![mcp-demo](https://github.com/user-attachments/assets/e3ff90a7-7801-48a9-b807-f7dd47f0d3d6)
 
 ### Installation
 
