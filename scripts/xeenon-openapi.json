@@ -1,0 +1,2985 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Xeenon Public API",
+    "description": "TODO: Add description",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://dev.public-api.xeenon.xyz",
+      "description": "Dev server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "headerApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "User API key"
+      }
+    },
+    "schemas": {}
+  },
+  "security": [
+    {
+      "headerApiKey": []
+    }
+  ],
+  "paths": {
+    "/chat/messages": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "description": "The message id",
+                        "type": "string"
+                      },
+                      "text": {
+                        "description": "The message text",
+                        "type": "string"
+                      },
+                      "html": {
+                        "description": "The message html",
+                        "type": "string"
+                      },
+                      "type": {
+                        "description": "The message type",
+                        "type": "string",
+                        "enum": [
+                          "text",
+                          "image",
+                          "video",
+                          "audio",
+                          "file",
+                          "link"
+                        ]
+                      },
+                      "shadowed": {
+                        "description": "Whether the message is shadowed",
+                        "type": "boolean"
+                      },
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "description": "The user id",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "The user name",
+                            "type": "string"
+                          },
+                          "image": {
+                            "description": "The user image",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "image"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "created_at": {
+                        "description": "The message created at",
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "description": "The message updated at",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "text",
+                      "html",
+                      "type",
+                      "shadowed",
+                      "user",
+                      "created_at",
+                      "updated_at"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getChatMessages",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [],
+        "description": "Get the recent messages for requesting user's channel"
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "The message id",
+                      "type": "string"
+                    },
+                    "text": {
+                      "description": "The message text",
+                      "type": "string"
+                    },
+                    "html": {
+                      "description": "The message html",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "The message type",
+                      "type": "string",
+                      "enum": [
+                        "text",
+                        "image",
+                        "video",
+                        "audio",
+                        "file",
+                        "link"
+                      ]
+                    },
+                    "shadowed": {
+                      "description": "Whether the message is shadowed",
+                      "type": "boolean"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "description": "The user id",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "The user name",
+                          "type": "string"
+                        },
+                        "image": {
+                          "description": "The user image",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "image"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "created_at": {
+                      "description": "The message created at",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "description": "The message updated at",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "text",
+                    "html",
+                    "type",
+                    "shadowed",
+                    "user",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postChatMessages",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [],
+        "description": "Send a message to requesting user's channel. Should have joined the channel first in xeenon.xyz or in the mobile app",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "description": "The message to send",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                },
+                "required": [
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chat/{userAddress}/messages": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "description": "The message id",
+                        "type": "string"
+                      },
+                      "text": {
+                        "description": "The message text",
+                        "type": "string"
+                      },
+                      "html": {
+                        "description": "The message html",
+                        "type": "string"
+                      },
+                      "type": {
+                        "description": "The message type",
+                        "type": "string",
+                        "enum": [
+                          "text",
+                          "image",
+                          "video",
+                          "audio",
+                          "file",
+                          "link"
+                        ]
+                      },
+                      "shadowed": {
+                        "description": "Whether the message is shadowed",
+                        "type": "boolean"
+                      },
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "description": "The user id",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "The user name",
+                            "type": "string"
+                          },
+                          "image": {
+                            "description": "The user image",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "image"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "created_at": {
+                        "description": "The message created at",
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "description": "The message updated at",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "text",
+                      "html",
+                      "type",
+                      "shadowed",
+                      "user",
+                      "created_at",
+                      "updated_at"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getChatByUserAddressMessages",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userAddress",
+            "schema": {
+              "description": "The Solana address of the user's chat channel",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "description": "Get the recent messages for a chat channel"
+      }
+    },
+    "/follow": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "emailNotifications": {
+                      "description": "Email notifications preferences",
+                      "type": "object",
+                      "properties": {
+                        "newVod": {
+                          "description": "Receive email notifications when the user uploads a new video",
+                          "type": "boolean"
+                        },
+                        "newStream": {
+                          "description": "Receive email notifications when the user goes live",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "newVod",
+                        "newStream"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "inAppNotifications": {
+                      "description": "In-app notifications preferences",
+                      "type": "object",
+                      "properties": {
+                        "newVod": {
+                          "description": "Receive in-app notifications when the user uploads a new video",
+                          "type": "boolean"
+                        },
+                        "newStream": {
+                          "description": "Receive in-app notifications when the user goes live",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "newVod",
+                        "newStream"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "_id": {
+                      "description": "The id of the follow",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "emailNotifications",
+                    "inAppNotifications",
+                    "_id"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postFollow",
+        "tags": [
+          "Follow"
+        ],
+        "parameters": [],
+        "description": "Follow a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emailNotifications": {
+                    "description": "Email notifications preferences",
+                    "type": "object",
+                    "properties": {
+                      "newVod": {
+                        "description": "Receive email notifications when the user uploads a new video",
+                        "type": "boolean"
+                      },
+                      "newStream": {
+                        "description": "Receive email notifications when the user goes live",
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "newVod",
+                      "newStream"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "inAppNotifications": {
+                    "description": "In-app notifications preferences",
+                    "type": "object",
+                    "properties": {
+                      "newVod": {
+                        "description": "Receive in-app notifications when the user uploads a new video",
+                        "type": "boolean"
+                      },
+                      "newStream": {
+                        "description": "Receive in-app notifications when the user goes live",
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "newVod",
+                      "newStream"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "address": {
+                    "description": "The address of the user to follow",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "emailNotifications",
+                  "inAppNotifications",
+                  "address"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The number of users unfollowed",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "count"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteFollow",
+        "tags": [
+          "Follow"
+        ],
+        "parameters": [],
+        "description": "Unfollow a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "description": "The address of the user to unfollow",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "address"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/follow/following": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The total number of users the user is following",
+                      "type": "number"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "description": "The Solana address of the user",
+                            "type": "string"
+                          },
+                          "bannerImage": {
+                            "description": "The banner image of the user",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "The description of the user",
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "description": "The display name of the user",
+                            "type": "string"
+                          },
+                          "isNSFW": {
+                            "description": "Whether the user is NSFW",
+                            "type": "boolean"
+                          },
+                          "isVerified": {
+                            "description": "Whether the user is verified",
+                            "type": "boolean"
+                          },
+                          "profileImage": {
+                            "description": "The profile image of the user",
+                            "type": "string"
+                          },
+                          "isLive": {
+                            "description": "Whether the user is live",
+                            "type": "boolean"
+                          },
+                          "followersCount": {
+                            "description": "The number of followers of the user",
+                            "type": "number"
+                          },
+                          "subscribersCount": {
+                            "description": "The number of subscribers of the user",
+                            "type": "number"
+                          },
+                          "profileUrl": {
+                            "description": "The Xeenon profile URL of the user",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "isNSFW",
+                          "isVerified",
+                          "isLive",
+                          "followersCount",
+                          "subscribersCount",
+                          "profileUrl"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getFollowFollowing",
+        "tags": [
+          "Follow"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "description": "The number of items to return",
+              "default": 10,
+              "type": "number"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "description": "The number of items to skip",
+              "default": 0,
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "description": "Get the users the user is following"
+      }
+    },
+    "/follow/followers": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The total number of users following the user",
+                      "type": "number"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "description": "The Solana address of the user",
+                            "type": "string"
+                          },
+                          "bannerImage": {
+                            "description": "The banner image of the user",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "The description of the user",
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "description": "The display name of the user",
+                            "type": "string"
+                          },
+                          "isNSFW": {
+                            "description": "Whether the user is NSFW",
+                            "type": "boolean"
+                          },
+                          "isVerified": {
+                            "description": "Whether the user is verified",
+                            "type": "boolean"
+                          },
+                          "profileImage": {
+                            "description": "The profile image of the user",
+                            "type": "string"
+                          },
+                          "isLive": {
+                            "description": "Whether the user is live",
+                            "type": "boolean"
+                          },
+                          "followersCount": {
+                            "description": "The number of followers of the user",
+                            "type": "number"
+                          },
+                          "subscribersCount": {
+                            "description": "The number of subscribers of the user",
+                            "type": "number"
+                          },
+                          "profileUrl": {
+                            "description": "The Xeenon profile URL of the user",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "isNSFW",
+                          "isVerified",
+                          "isLive",
+                          "followersCount",
+                          "subscribersCount",
+                          "profileUrl"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getFollowFollowers",
+        "tags": [
+          "Follow"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "description": "The number of items to return",
+              "default": 10,
+              "type": "number"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "description": "The number of items to skip",
+              "default": 0,
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "description": "Get the users following the user"
+      }
+    },
+    "/follow/content": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "description": "The content ID",
+                        "type": "string"
+                      },
+                      "kind": {
+                        "description": "The type of content",
+                        "type": "string",
+                        "enum": [
+                          "Stream",
+                          "Video",
+                          "Clip"
+                        ]
+                      },
+                      "headline": {
+                        "description": "The content headline",
+                        "type": "string"
+                      },
+                      "description": {
+                        "description": "The content description",
+                        "type": "string"
+                      },
+                      "thumbnail": {
+                        "description": "The content thumbnail URL",
+                        "type": "string"
+                      },
+                      "url": {
+                        "description": "The content URL in Xeenon",
+                        "type": "string"
+                      },
+                      "tags": {
+                        "description": "The content tags",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "isNSFW": {
+                        "description": "Whether the content is NSFW",
+                        "type": "boolean"
+                      },
+                      "durationSeconds": {
+                        "description": "The content duration in seconds",
+                        "type": "number"
+                      },
+                      "views": {
+                        "description": "The number of views",
+                        "type": "number"
+                      },
+                      "createdAt": {
+                        "description": "ISO 8601 when the content was created",
+                        "type": "string"
+                      },
+                      "user": {
+                        "description": "The content creator",
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "description": "The Solana address of the user",
+                            "type": "string"
+                          },
+                          "bannerImage": {
+                            "description": "The banner image of the user",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "The description of the user",
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "description": "The display name of the user",
+                            "type": "string"
+                          },
+                          "isNSFW": {
+                            "description": "Whether the user is NSFW",
+                            "type": "boolean"
+                          },
+                          "isVerified": {
+                            "description": "Whether the user is verified",
+                            "type": "boolean"
+                          },
+                          "profileImage": {
+                            "description": "The profile image of the user",
+                            "type": "string"
+                          },
+                          "isLive": {
+                            "description": "Whether the user is live",
+                            "type": "boolean"
+                          },
+                          "followersCount": {
+                            "description": "The number of followers of the user",
+                            "type": "number"
+                          },
+                          "subscribersCount": {
+                            "description": "The number of subscribers of the user",
+                            "type": "number"
+                          },
+                          "profileUrl": {
+                            "description": "The Xeenon profile URL of the user",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "isNSFW",
+                          "isVerified",
+                          "isLive",
+                          "followersCount",
+                          "subscribersCount",
+                          "profileUrl"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "subcategory": {
+                        "description": "The content subcategory",
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "description": "The subcategory name",
+                            "type": "string"
+                          },
+                          "slug": {
+                            "description": "The subcategory slug",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "The subcategory description",
+                            "type": "string"
+                          },
+                          "image": {
+                            "description": "The subcategory image",
+                            "type": "string"
+                          },
+                          "isNSFW": {
+                            "description": "Whether the subcategory is NSFW",
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "slug",
+                          "description"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "reactionsSummary": {
+                        "description": "The summary of the reactions",
+                        "type": "object",
+                        "properties": {
+                          "likesCount": {
+                            "description": "The number of likes",
+                            "type": "number"
+                          },
+                          "dislikesCount": {
+                            "description": "The number of dislikes",
+                            "type": "number"
+                          },
+                          "commentsCount": {
+                            "description": "The number of comments",
+                            "type": "number"
+                          },
+                          "isLiked": {
+                            "description": "Whether the user has liked the model",
+                            "type": "boolean"
+                          },
+                          "isDisliked": {
+                            "description": "Whether the user has disliked the model",
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "likesCount",
+                          "dislikesCount",
+                          "commentsCount"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "_id",
+                      "kind",
+                      "headline",
+                      "createdAt",
+                      "user",
+                      "reactionsSummary"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getFollowContent",
+        "tags": [
+          "Follow"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "description": "The number of items to return",
+              "default": 10,
+              "type": "number"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "description": "The number of items to skip",
+              "default": 0,
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "description": "Get the content of users the user is following"
+      }
+    },
+    "/search/users": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The total number of users found",
+                      "type": "number"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "description": "The Solana address of the user",
+                            "type": "string"
+                          },
+                          "bannerImage": {
+                            "description": "The banner image of the user",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "The description of the user",
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "description": "The display name of the user",
+                            "type": "string"
+                          },
+                          "isNSFW": {
+                            "description": "Whether the user is NSFW",
+                            "type": "boolean"
+                          },
+                          "isVerified": {
+                            "description": "Whether the user is verified",
+                            "type": "boolean"
+                          },
+                          "profileImage": {
+                            "description": "The profile image of the user",
+                            "type": "string"
+                          },
+                          "isLive": {
+                            "description": "Whether the user is live",
+                            "type": "boolean"
+                          },
+                          "followersCount": {
+                            "description": "The number of followers of the user",
+                            "type": "number"
+                          },
+                          "subscribersCount": {
+                            "description": "The number of subscribers of the user",
+                            "type": "number"
+                          },
+                          "profileUrl": {
+                            "description": "The Xeenon profile URL of the user",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "isNSFW",
+                          "isVerified",
+                          "isLive",
+                          "followersCount",
+                          "subscribersCount",
+                          "profileUrl"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSearchUsers",
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "description": "The search query",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 100
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "description": "The limit of the search results",
+              "default": 10,
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "description": "The skip of the search results",
+              "default": 0,
+              "type": "number",
+              "minimum": 0
+            },
+            "required": true
+          }
+        ],
+        "description": "Search Xeenon users by name or address"
+      }
+    },
+    "/search/clips": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The total number of clips found",
+                      "type": "number"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "description": "The content ID",
+                            "type": "string"
+                          },
+                          "headline": {
+                            "description": "The content headline",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "The content description",
+                            "type": "string"
+                          },
+                          "thumbnail": {
+                            "description": "The content thumbnail URL",
+                            "type": "string"
+                          },
+                          "url": {
+                            "description": "The content URL in Xeenon",
+                            "type": "string"
+                          },
+                          "tags": {
+                            "description": "The content tags",
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "isNSFW": {
+                            "description": "Whether the content is NSFW",
+                            "type": "boolean"
+                          },
+                          "durationSeconds": {
+                            "description": "The content duration in seconds",
+                            "type": "number"
+                          },
+                          "views": {
+                            "description": "The number of views",
+                            "type": "number"
+                          },
+                          "createdAt": {
+                            "description": "ISO 8601 when the content was created",
+                            "type": "string"
+                          },
+                          "user": {
+                            "description": "The content creator",
+                            "type": "object",
+                            "properties": {
+                              "address": {
+                                "description": "The Solana address of the user",
+                                "type": "string"
+                              },
+                              "bannerImage": {
+                                "description": "The banner image of the user",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The description of the user",
+                                "type": "string"
+                              },
+                              "displayName": {
+                                "description": "The display name of the user",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the user is NSFW",
+                                "type": "boolean"
+                              },
+                              "isVerified": {
+                                "description": "Whether the user is verified",
+                                "type": "boolean"
+                              },
+                              "profileImage": {
+                                "description": "The profile image of the user",
+                                "type": "string"
+                              },
+                              "isLive": {
+                                "description": "Whether the user is live",
+                                "type": "boolean"
+                              },
+                              "followersCount": {
+                                "description": "The number of followers of the user",
+                                "type": "number"
+                              },
+                              "subscribersCount": {
+                                "description": "The number of subscribers of the user",
+                                "type": "number"
+                              },
+                              "profileUrl": {
+                                "description": "The Xeenon profile URL of the user",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "address",
+                              "isNSFW",
+                              "isVerified",
+                              "isLive",
+                              "followersCount",
+                              "subscribersCount",
+                              "profileUrl"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "subcategory": {
+                            "description": "The content subcategory",
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "description": "The subcategory name",
+                                "type": "string"
+                              },
+                              "slug": {
+                                "description": "The subcategory slug",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The subcategory description",
+                                "type": "string"
+                              },
+                              "image": {
+                                "description": "The subcategory image",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the subcategory is NSFW",
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "slug",
+                              "description"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "reactionsSummary": {
+                            "description": "The summary of the reactions",
+                            "type": "object",
+                            "properties": {
+                              "likesCount": {
+                                "description": "The number of likes",
+                                "type": "number"
+                              },
+                              "dislikesCount": {
+                                "description": "The number of dislikes",
+                                "type": "number"
+                              },
+                              "commentsCount": {
+                                "description": "The number of comments",
+                                "type": "number"
+                              },
+                              "isLiked": {
+                                "description": "Whether the user has liked the model",
+                                "type": "boolean"
+                              },
+                              "isDisliked": {
+                                "description": "Whether the user has disliked the model",
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "likesCount",
+                              "dislikesCount",
+                              "commentsCount"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "kind": {
+                            "type": "string",
+                            "const": "Clip"
+                          }
+                        },
+                        "required": [
+                          "_id",
+                          "headline",
+                          "createdAt",
+                          "user",
+                          "reactionsSummary",
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSearchClips",
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "description": "The search query",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 100
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "description": "The limit of the search results",
+              "default": 10,
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "description": "The skip of the search results",
+              "default": 0,
+              "type": "number",
+              "minimum": 0
+            },
+            "required": true
+          }
+        ],
+        "description": "Search Xeenon clips by title or description"
+      }
+    },
+    "/search/videos": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The total number of videos found",
+                      "type": "number"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "description": "The content ID",
+                            "type": "string"
+                          },
+                          "headline": {
+                            "description": "The content headline",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "The content description",
+                            "type": "string"
+                          },
+                          "thumbnail": {
+                            "description": "The content thumbnail URL",
+                            "type": "string"
+                          },
+                          "url": {
+                            "description": "The content URL in Xeenon",
+                            "type": "string"
+                          },
+                          "tags": {
+                            "description": "The content tags",
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "isNSFW": {
+                            "description": "Whether the content is NSFW",
+                            "type": "boolean"
+                          },
+                          "durationSeconds": {
+                            "description": "The content duration in seconds",
+                            "type": "number"
+                          },
+                          "views": {
+                            "description": "The number of views",
+                            "type": "number"
+                          },
+                          "createdAt": {
+                            "description": "ISO 8601 when the content was created",
+                            "type": "string"
+                          },
+                          "user": {
+                            "description": "The content creator",
+                            "type": "object",
+                            "properties": {
+                              "address": {
+                                "description": "The Solana address of the user",
+                                "type": "string"
+                              },
+                              "bannerImage": {
+                                "description": "The banner image of the user",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The description of the user",
+                                "type": "string"
+                              },
+                              "displayName": {
+                                "description": "The display name of the user",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the user is NSFW",
+                                "type": "boolean"
+                              },
+                              "isVerified": {
+                                "description": "Whether the user is verified",
+                                "type": "boolean"
+                              },
+                              "profileImage": {
+                                "description": "The profile image of the user",
+                                "type": "string"
+                              },
+                              "isLive": {
+                                "description": "Whether the user is live",
+                                "type": "boolean"
+                              },
+                              "followersCount": {
+                                "description": "The number of followers of the user",
+                                "type": "number"
+                              },
+                              "subscribersCount": {
+                                "description": "The number of subscribers of the user",
+                                "type": "number"
+                              },
+                              "profileUrl": {
+                                "description": "The Xeenon profile URL of the user",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "address",
+                              "isNSFW",
+                              "isVerified",
+                              "isLive",
+                              "followersCount",
+                              "subscribersCount",
+                              "profileUrl"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "subcategory": {
+                            "description": "The content subcategory",
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "description": "The subcategory name",
+                                "type": "string"
+                              },
+                              "slug": {
+                                "description": "The subcategory slug",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The subcategory description",
+                                "type": "string"
+                              },
+                              "image": {
+                                "description": "The subcategory image",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the subcategory is NSFW",
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "slug",
+                              "description"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "reactionsSummary": {
+                            "description": "The summary of the reactions",
+                            "type": "object",
+                            "properties": {
+                              "likesCount": {
+                                "description": "The number of likes",
+                                "type": "number"
+                              },
+                              "dislikesCount": {
+                                "description": "The number of dislikes",
+                                "type": "number"
+                              },
+                              "commentsCount": {
+                                "description": "The number of comments",
+                                "type": "number"
+                              },
+                              "isLiked": {
+                                "description": "Whether the user has liked the model",
+                                "type": "boolean"
+                              },
+                              "isDisliked": {
+                                "description": "Whether the user has disliked the model",
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "likesCount",
+                              "dislikesCount",
+                              "commentsCount"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "kind": {
+                            "type": "string",
+                            "const": "Video"
+                          }
+                        },
+                        "required": [
+                          "_id",
+                          "headline",
+                          "createdAt",
+                          "user",
+                          "reactionsSummary",
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSearchVideos",
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "description": "The search query",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 100
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "description": "The limit of the search results",
+              "default": 10,
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "description": "The skip of the search results",
+              "default": 0,
+              "type": "number",
+              "minimum": 0
+            },
+            "required": true
+          }
+        ],
+        "description": "Search Xeenon videos by title or description"
+      }
+    },
+    "/search/streams": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The total number of streams found",
+                      "type": "number"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "description": "The content ID",
+                            "type": "string"
+                          },
+                          "headline": {
+                            "description": "The content headline",
+                            "type": "string"
+                          },
+                          "description": {
+                            "description": "The content description",
+                            "type": "string"
+                          },
+                          "thumbnail": {
+                            "description": "The content thumbnail URL",
+                            "type": "string"
+                          },
+                          "url": {
+                            "description": "The content URL in Xeenon",
+                            "type": "string"
+                          },
+                          "tags": {
+                            "description": "The content tags",
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "isNSFW": {
+                            "description": "Whether the content is NSFW",
+                            "type": "boolean"
+                          },
+                          "durationSeconds": {
+                            "description": "The content duration in seconds",
+                            "type": "number"
+                          },
+                          "views": {
+                            "description": "The number of views",
+                            "type": "number"
+                          },
+                          "createdAt": {
+                            "description": "ISO 8601 when the content was created",
+                            "type": "string"
+                          },
+                          "user": {
+                            "description": "The content creator",
+                            "type": "object",
+                            "properties": {
+                              "address": {
+                                "description": "The Solana address of the user",
+                                "type": "string"
+                              },
+                              "bannerImage": {
+                                "description": "The banner image of the user",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The description of the user",
+                                "type": "string"
+                              },
+                              "displayName": {
+                                "description": "The display name of the user",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the user is NSFW",
+                                "type": "boolean"
+                              },
+                              "isVerified": {
+                                "description": "Whether the user is verified",
+                                "type": "boolean"
+                              },
+                              "profileImage": {
+                                "description": "The profile image of the user",
+                                "type": "string"
+                              },
+                              "isLive": {
+                                "description": "Whether the user is live",
+                                "type": "boolean"
+                              },
+                              "followersCount": {
+                                "description": "The number of followers of the user",
+                                "type": "number"
+                              },
+                              "subscribersCount": {
+                                "description": "The number of subscribers of the user",
+                                "type": "number"
+                              },
+                              "profileUrl": {
+                                "description": "The Xeenon profile URL of the user",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "address",
+                              "isNSFW",
+                              "isVerified",
+                              "isLive",
+                              "followersCount",
+                              "subscribersCount",
+                              "profileUrl"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "subcategory": {
+                            "description": "The content subcategory",
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "description": "The subcategory name",
+                                "type": "string"
+                              },
+                              "slug": {
+                                "description": "The subcategory slug",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The subcategory description",
+                                "type": "string"
+                              },
+                              "image": {
+                                "description": "The subcategory image",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the subcategory is NSFW",
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "slug",
+                              "description"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "reactionsSummary": {
+                            "description": "The summary of the reactions",
+                            "type": "object",
+                            "properties": {
+                              "likesCount": {
+                                "description": "The number of likes",
+                                "type": "number"
+                              },
+                              "dislikesCount": {
+                                "description": "The number of dislikes",
+                                "type": "number"
+                              },
+                              "commentsCount": {
+                                "description": "The number of comments",
+                                "type": "number"
+                              },
+                              "isLiked": {
+                                "description": "Whether the user has liked the model",
+                                "type": "boolean"
+                              },
+                              "isDisliked": {
+                                "description": "Whether the user has disliked the model",
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "likesCount",
+                              "dislikesCount",
+                              "commentsCount"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "kind": {
+                            "type": "string",
+                            "const": "Stream"
+                          }
+                        },
+                        "required": [
+                          "_id",
+                          "headline",
+                          "createdAt",
+                          "user",
+                          "reactionsSummary",
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSearchStreams",
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "description": "The search query",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 100
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "description": "The limit of the search results",
+              "default": 10,
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "description": "The skip of the search results",
+              "default": 0,
+              "type": "number",
+              "minimum": 0
+            },
+            "required": true
+          }
+        ],
+        "description": "Search Xeenon streams by title or description"
+      }
+    },
+    "/reactions": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "The reaction ID",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "The type of reaction",
+                      "type": "string",
+                      "enum": [
+                        "like",
+                        "dislike",
+                        "comment"
+                      ]
+                    },
+                    "content": {
+                      "description": "The comment content",
+                      "type": "string"
+                    },
+                    "count": {
+                      "description": "The reaction count",
+                      "type": "number"
+                    },
+                    "createdAt": {
+                      "description": "ISO 8601 when the reaction was created",
+                      "type": "string"
+                    },
+                    "modelId": {
+                      "description": "The ID of the model being reacted to",
+                      "type": "string"
+                    },
+                    "modelType": {
+                      "description": "The type of model being reacted to",
+                      "type": "string",
+                      "enum": [
+                        "Content",
+                        "Reaction"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "_id",
+                    "type",
+                    "createdAt",
+                    "modelId",
+                    "modelType"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "~standard": {
+                    "vendor": "zod",
+                    "version": 1
+                  },
+                  "def": {
+                    "type": "string"
+                  },
+                  "format": null,
+                  "minLength": null,
+                  "maxLength": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postReactions",
+        "tags": [
+          "Reactions"
+        ],
+        "parameters": [],
+        "description": "Create a reaction (like/dislike) on a model",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "modelId": {
+                    "description": "The ID of the content to react to",
+                    "type": "string"
+                  },
+                  "modelType": {
+                    "description": "The type of model to react to. `Content` if reacting to a video, clip or stream, `Reaction` if reacting to a comment",
+                    "type": "string",
+                    "enum": [
+                      "Content",
+                      "Reaction"
+                    ]
+                  },
+                  "type": {
+                    "description": "The type of reaction",
+                    "type": "string",
+                    "enum": [
+                      "like",
+                      "dislike"
+                    ]
+                  },
+                  "count": {
+                    "description": "The number of likes (Only allowed when reaction to streams)",
+                    "type": "number",
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "modelId",
+                  "modelType",
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteReactions",
+        "tags": [
+          "Reactions"
+        ],
+        "parameters": [],
+        "description": "Remove a reaction (like/dislike) from a model",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "modelId": {
+                    "description": "The ID of the model to remove reaction from",
+                    "type": "string"
+                  },
+                  "modelType": {
+                    "description": "The type of model",
+                    "type": "string",
+                    "enum": [
+                      "Content",
+                      "Reaction"
+                    ]
+                  },
+                  "type": {
+                    "description": "The type of reaction to remove",
+                    "type": "string",
+                    "enum": [
+                      "like",
+                      "dislike"
+                    ]
+                  }
+                },
+                "required": [
+                  "modelId",
+                  "modelType",
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reactions/comments": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "The comment ID",
+                      "type": "string"
+                    },
+                    "content": {
+                      "description": "The comment content",
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "description": "ISO 8601 when the reaction was created",
+                      "type": "string"
+                    },
+                    "modelId": {
+                      "description": "The ID of the model being reacted to",
+                      "type": "string"
+                    },
+                    "modelType": {
+                      "description": "The type of model being reacted to",
+                      "type": "string",
+                      "enum": [
+                        "Content",
+                        "Reaction"
+                      ]
+                    },
+                    "user": {
+                      "description": "The user who made the comment",
+                      "type": "object",
+                      "properties": {
+                        "address": {
+                          "description": "The Solana address of the user",
+                          "type": "string"
+                        },
+                        "bannerImage": {
+                          "description": "The banner image of the user",
+                          "type": "string"
+                        },
+                        "description": {
+                          "description": "The description of the user",
+                          "type": "string"
+                        },
+                        "displayName": {
+                          "description": "The display name of the user",
+                          "type": "string"
+                        },
+                        "isNSFW": {
+                          "description": "Whether the user is NSFW",
+                          "type": "boolean"
+                        },
+                        "isVerified": {
+                          "description": "Whether the user is verified",
+                          "type": "boolean"
+                        },
+                        "profileImage": {
+                          "description": "The profile image of the user",
+                          "type": "string"
+                        },
+                        "isLive": {
+                          "description": "Whether the user is live",
+                          "type": "boolean"
+                        },
+                        "followersCount": {
+                          "description": "The number of followers of the user",
+                          "type": "number"
+                        },
+                        "subscribersCount": {
+                          "description": "The number of subscribers of the user",
+                          "type": "number"
+                        },
+                        "profileUrl": {
+                          "description": "The Xeenon profile URL of the user",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "address",
+                        "isNSFW",
+                        "isVerified",
+                        "isLive",
+                        "followersCount",
+                        "subscribersCount",
+                        "profileUrl"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "reactionsSummary": {
+                      "description": "The summary of the reaction",
+                      "type": "object",
+                      "properties": {
+                        "likesCount": {
+                          "description": "The number of likes",
+                          "type": "number"
+                        },
+                        "dislikesCount": {
+                          "description": "The number of dislikes",
+                          "type": "number"
+                        },
+                        "commentsCount": {
+                          "description": "The number of comments",
+                          "type": "number"
+                        },
+                        "isLiked": {
+                          "description": "Whether the user has liked the model",
+                          "type": "boolean"
+                        },
+                        "isDisliked": {
+                          "description": "Whether the user has disliked the model",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "likesCount",
+                        "dislikesCount",
+                        "commentsCount"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "_id",
+                    "createdAt",
+                    "modelId",
+                    "modelType",
+                    "user",
+                    "reactionsSummary"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postReactionsComments",
+        "tags": [
+          "Reactions"
+        ],
+        "parameters": [],
+        "description": "Create a comment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "modelId": {
+                    "description": "The ID of the model to comment on",
+                    "type": "string"
+                  },
+                  "modelType": {
+                    "description": "The type of model to comment on. `Content` if commenting on a video or clip, `Reaction` if replying to a comment",
+                    "type": "string",
+                    "enum": [
+                      "Content",
+                      "Reaction"
+                    ]
+                  },
+                  "content": {
+                    "description": "The comment content",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5000
+                  }
+                },
+                "required": [
+                  "modelId",
+                  "modelType",
+                  "content"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "description": "The comment ID",
+                            "type": "string"
+                          },
+                          "content": {
+                            "description": "The comment content",
+                            "type": "string"
+                          },
+                          "createdAt": {
+                            "description": "ISO 8601 when the reaction was created",
+                            "type": "string"
+                          },
+                          "modelId": {
+                            "description": "The ID of the model being reacted to",
+                            "type": "string"
+                          },
+                          "modelType": {
+                            "description": "The type of model being reacted to",
+                            "type": "string",
+                            "enum": [
+                              "Content",
+                              "Reaction"
+                            ]
+                          },
+                          "user": {
+                            "description": "The user who made the comment",
+                            "type": "object",
+                            "properties": {
+                              "address": {
+                                "description": "The Solana address of the user",
+                                "type": "string"
+                              },
+                              "bannerImage": {
+                                "description": "The banner image of the user",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The description of the user",
+                                "type": "string"
+                              },
+                              "displayName": {
+                                "description": "The display name of the user",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the user is NSFW",
+                                "type": "boolean"
+                              },
+                              "isVerified": {
+                                "description": "Whether the user is verified",
+                                "type": "boolean"
+                              },
+                              "profileImage": {
+                                "description": "The profile image of the user",
+                                "type": "string"
+                              },
+                              "isLive": {
+                                "description": "Whether the user is live",
+                                "type": "boolean"
+                              },
+                              "followersCount": {
+                                "description": "The number of followers of the user",
+                                "type": "number"
+                              },
+                              "subscribersCount": {
+                                "description": "The number of subscribers of the user",
+                                "type": "number"
+                              },
+                              "profileUrl": {
+                                "description": "The Xeenon profile URL of the user",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "address",
+                              "isNSFW",
+                              "isVerified",
+                              "isLive",
+                              "followersCount",
+                              "subscribersCount",
+                              "profileUrl"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "reactionsSummary": {
+                            "description": "The summary of the reaction",
+                            "type": "object",
+                            "properties": {
+                              "likesCount": {
+                                "description": "The number of likes",
+                                "type": "number"
+                              },
+                              "dislikesCount": {
+                                "description": "The number of dislikes",
+                                "type": "number"
+                              },
+                              "commentsCount": {
+                                "description": "The number of comments",
+                                "type": "number"
+                              },
+                              "isLiked": {
+                                "description": "Whether the user has liked the model",
+                                "type": "boolean"
+                              },
+                              "isDisliked": {
+                                "description": "Whether the user has disliked the model",
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "likesCount",
+                              "dislikesCount",
+                              "commentsCount"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "_id",
+                          "createdAt",
+                          "modelId",
+                          "modelType",
+                          "user",
+                          "reactionsSummary"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "count": {
+                      "description": "The number of comments",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "count"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getReactionsComments",
+        "tags": [
+          "Reactions"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "modelId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "modelType",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Content",
+                "Reaction"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "required": false
+          }
+        ],
+        "description": "Get comments for a model"
+      }
+    },
+    "/reactions/comments/{id}": {
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The number of comments deleted",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "count"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteReactionsCommentsById",
+        "tags": [
+          "Reactions"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "description": "The comment ID",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "description": "Delete a comment"
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The number of comments updated",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "count"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "patchReactionsCommentsById",
+        "tags": [
+          "Reactions"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "description": "The comment ID",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "description": "Edit a comment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "description": "The updated comment content",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 5000
+                  }
+                },
+                "required": [
+                  "content"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/whoami": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "description": "The Solana address of the user",
+                      "type": "string"
+                    },
+                    "bannerImage": {
+                      "description": "The banner image of the user",
+                      "type": "string"
+                    },
+                    "description": {
+                      "description": "The description of the user",
+                      "type": "string"
+                    },
+                    "displayName": {
+                      "description": "The display name of the user",
+                      "type": "string"
+                    },
+                    "isNSFW": {
+                      "description": "Whether the user is NSFW",
+                      "type": "boolean"
+                    },
+                    "isVerified": {
+                      "description": "Whether the user is verified",
+                      "type": "boolean"
+                    },
+                    "profileImage": {
+                      "description": "The profile image of the user",
+                      "type": "string"
+                    },
+                    "isLive": {
+                      "description": "Whether the user is live",
+                      "type": "boolean"
+                    },
+                    "followersCount": {
+                      "description": "The number of followers of the user",
+                      "type": "number"
+                    },
+                    "subscribersCount": {
+                      "description": "The number of subscribers of the user",
+                      "type": "number"
+                    },
+                    "profileUrl": {
+                      "description": "The Xeenon profile URL of the user",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "address",
+                    "isNSFW",
+                    "isVerified",
+                    "isLive",
+                    "followersCount",
+                    "subscribersCount",
+                    "profileUrl"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getUsersWhoami",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [],
+        "description": "Get the current user"
+      }
+    },
+    "/users/{address}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "description": "The Solana address of the user",
+                      "type": "string"
+                    },
+                    "bannerImage": {
+                      "description": "The banner image of the user",
+                      "type": "string"
+                    },
+                    "description": {
+                      "description": "The description of the user",
+                      "type": "string"
+                    },
+                    "displayName": {
+                      "description": "The display name of the user",
+                      "type": "string"
+                    },
+                    "isNSFW": {
+                      "description": "Whether the user is NSFW",
+                      "type": "boolean"
+                    },
+                    "isVerified": {
+                      "description": "Whether the user is verified",
+                      "type": "boolean"
+                    },
+                    "profileImage": {
+                      "description": "The profile image of the user",
+                      "type": "string"
+                    },
+                    "isLive": {
+                      "description": "Whether the user is live",
+                      "type": "boolean"
+                    },
+                    "followersCount": {
+                      "description": "The number of followers of the user",
+                      "type": "number"
+                    },
+                    "subscribersCount": {
+                      "description": "The number of subscribers of the user",
+                      "type": "number"
+                    },
+                    "profileUrl": {
+                      "description": "The Xeenon profile URL of the user",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "address",
+                    "isNSFW",
+                    "isVerified",
+                    "isLive",
+                    "followersCount",
+                    "subscribersCount",
+                    "profileUrl"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "User not found"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getUsersByAddress",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "schema": {
+              "description": "The Solana address of the user",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "description": "Get a user public profile by their Solana address"
+      }
+    }
+  }
+}
