@@ -124,22 +124,13 @@ export class MCPProxy {
   }
 
   private parseHeadersFromEnv(): Record<string, string> {
-    const headersJson = process.env.OPENAPI_MCP_HEADERS
-    if (!headersJson) {
+    const xeenonApiKey = process.env.XEENON_API_KEY
+    if (!xeenonApiKey) {
+      console.warn('XEENON_API_KEY environment variable is not set')
       return {}
     }
-
-    try {
-      const headers = JSON.parse(headersJson)
-      if (typeof headers !== 'object' || headers === null) {
-        console.warn('OPENAPI_MCP_HEADERS environment variable must be a JSON object, got:', typeof headers)
-        return {}
-      }
-      return headers
-    } catch (error) {
-      console.warn('Failed to parse OPENAPI_MCP_HEADERS environment variable:', error)
-      return {}
-    }
+    const headers = { 'X-API-Key': xeenonApiKey }
+    return headers
   }
 
   private getContentType(headers: Headers): 'text' | 'image' | 'binary' {

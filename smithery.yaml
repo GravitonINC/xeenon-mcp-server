@@ -6,7 +6,7 @@ startCommand:
     # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
     |-
     (config) => {
-      const env = { OPENAPI_MCP_HEADERS: config.openapiMcpHeaders };
+      const env = { XEENON_API_KEY: config.xeenonApiKey };
       if (config.baseUrl) env.BASE_URL = config.baseUrl;
       return { command: 'xeenon-mcp-server', args: [], env };
     }
@@ -14,15 +14,15 @@ startCommand:
     # JSON Schema defining the configuration options for the MCP.
     type: object
     required:
-      - openapiMcpHeaders
+      - xeenonApiKey
     properties:
-      openapiMcpHeaders:
+      xeenonApiKey:
         type: string
-        default: '{}'
-        description: JSON string for HTTP headers, must include API key
+        default: 'xee_abcdef'
+        description: Xeenon API key
       baseUrl:
         type: string
         description: Optional override for Xeenon API base URL
   exampleConfig:
-    openapiMcpHeaders: '{"X-API-Key":"xee_abcdef"}'
+    xeenonApiKey: xee_abcdef
     baseUrl: https://main.public-api.xeenon.com
