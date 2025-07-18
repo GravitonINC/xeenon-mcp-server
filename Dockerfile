@@ -31,7 +31,7 @@ COPY --from=builder /usr/local/lib/node_modules/@graviton-inc/xeenon-mcp-server 
 COPY --from=builder /usr/local/bin/xeenon-mcp-server /usr/local/bin/xeenon-mcp-server
 
 # Set default environment variables
-ENV XEENON_API_KEY="xee_abcdef"
+ENV OPENAPI_MCP_HEADERS="{}"
 
 # Set entrypoint
 ENTRYPOINT ["xeenon-mcp-server"]
