@@ -2346,7 +2346,7 @@
         }
       }
     },
-    "/search/users": {
+    "/search/{modelType}": {
       "get": {
         "responses": {
           "200": {
@@ -2354,80 +2354,812 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": {
-                      "description": "The total number of users found",
-                      "type": "number"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "address": {
-                            "description": "The Solana address of the user",
-                            "type": "string"
-                          },
-                          "bannerImage": {
-                            "description": "The banner image of the user",
-                            "type": "string"
-                          },
-                          "description": {
-                            "description": "The description of the user",
-                            "type": "string"
-                          },
-                          "displayName": {
-                            "description": "The display name of the user",
-                            "type": "string"
-                          },
-                          "isNSFW": {
-                            "description": "Whether the user is NSFW",
-                            "type": "boolean"
-                          },
-                          "isVerified": {
-                            "description": "Whether the user is verified",
-                            "type": "boolean"
-                          },
-                          "profileImage": {
-                            "description": "The profile image of the user",
-                            "type": "string"
-                          },
-                          "isLive": {
-                            "description": "Whether the user is live",
-                            "type": "boolean"
-                          },
-                          "followersCount": {
-                            "description": "The number of followers of the user",
-                            "type": "number"
-                          },
-                          "subscribersCount": {
-                            "description": "The number of subscribers of the user",
-                            "type": "number"
-                          },
-                          "profileUrl": {
-                            "description": "The Xeenon profile URL of the user",
-                            "type": "string"
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "description": "The total number of users found",
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "address": {
+                                "description": "The Solana address of the user",
+                                "type": "string"
+                              },
+                              "bannerImage": {
+                                "description": "The banner image of the user",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The description of the user",
+                                "type": "string"
+                              },
+                              "displayName": {
+                                "description": "The display name of the user",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the user is NSFW",
+                                "type": "boolean"
+                              },
+                              "isVerified": {
+                                "description": "Whether the user is verified",
+                                "type": "boolean"
+                              },
+                              "profileImage": {
+                                "description": "The profile image of the user",
+                                "type": "string"
+                              },
+                              "isLive": {
+                                "description": "Whether the user is live",
+                                "type": "boolean"
+                              },
+                              "followersCount": {
+                                "description": "The number of followers of the user",
+                                "type": "number"
+                              },
+                              "subscribersCount": {
+                                "description": "The number of subscribers of the user",
+                                "type": "number"
+                              },
+                              "profileUrl": {
+                                "description": "The Xeenon profile URL of the user",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "address",
+                              "isNSFW",
+                              "isVerified",
+                              "isLive",
+                              "followersCount",
+                              "subscribersCount",
+                              "profileUrl"
+                            ],
+                            "additionalProperties": false
                           }
                         },
-                        "required": [
-                          "address",
-                          "isNSFW",
-                          "isVerified",
-                          "isLive",
-                          "followersCount",
-                          "subscribersCount",
-                          "profileUrl"
-                        ],
-                        "additionalProperties": false
-                      }
+                        "modelType": {
+                          "type": "string",
+                          "const": "users"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "items",
+                        "modelType"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "description": "The total number of clips found",
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "description": "The content ID",
+                                "type": "string"
+                              },
+                              "headline": {
+                                "description": "The content headline",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The content description",
+                                "type": "string"
+                              },
+                              "thumbnail": {
+                                "description": "The content thumbnail URL",
+                                "type": "string"
+                              },
+                              "url": {
+                                "description": "The content URL in Xeenon",
+                                "type": "string"
+                              },
+                              "tags": {
+                                "description": "The content tags",
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "isNSFW": {
+                                "description": "Whether the content is NSFW",
+                                "type": "boolean"
+                              },
+                              "durationSeconds": {
+                                "description": "The content duration in seconds",
+                                "type": "number"
+                              },
+                              "views": {
+                                "description": "The number of views",
+                                "type": "number"
+                              },
+                              "createdAt": {
+                                "description": "ISO 8601 when the content was created",
+                                "type": "string"
+                              },
+                              "user": {
+                                "description": "The content creator",
+                                "type": "object",
+                                "properties": {
+                                  "address": {
+                                    "description": "The Solana address of the user",
+                                    "type": "string"
+                                  },
+                                  "bannerImage": {
+                                    "description": "The banner image of the user",
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "description": "The description of the user",
+                                    "type": "string"
+                                  },
+                                  "displayName": {
+                                    "description": "The display name of the user",
+                                    "type": "string"
+                                  },
+                                  "isNSFW": {
+                                    "description": "Whether the user is NSFW",
+                                    "type": "boolean"
+                                  },
+                                  "isVerified": {
+                                    "description": "Whether the user is verified",
+                                    "type": "boolean"
+                                  },
+                                  "profileImage": {
+                                    "description": "The profile image of the user",
+                                    "type": "string"
+                                  },
+                                  "isLive": {
+                                    "description": "Whether the user is live",
+                                    "type": "boolean"
+                                  },
+                                  "followersCount": {
+                                    "description": "The number of followers of the user",
+                                    "type": "number"
+                                  },
+                                  "subscribersCount": {
+                                    "description": "The number of subscribers of the user",
+                                    "type": "number"
+                                  },
+                                  "profileUrl": {
+                                    "description": "The Xeenon profile URL of the user",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "isNSFW",
+                                  "isVerified",
+                                  "isLive",
+                                  "followersCount",
+                                  "subscribersCount",
+                                  "profileUrl"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "subcategory": {
+                                "description": "The content subcategory",
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "description": "The subcategory name",
+                                    "type": "string"
+                                  },
+                                  "slug": {
+                                    "description": "The subcategory slug",
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "description": "The subcategory description",
+                                    "type": "string"
+                                  },
+                                  "category": {
+                                    "description": "The category slug of the subcategory",
+                                    "type": "string"
+                                  },
+                                  "image": {
+                                    "description": "The subcategory image",
+                                    "type": "string"
+                                  },
+                                  "isNSFW": {
+                                    "description": "Whether the subcategory is NSFW",
+                                    "type": "boolean"
+                                  },
+                                  "tags": {
+                                    "description": "The subcategory tags",
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "name",
+                                  "slug",
+                                  "description",
+                                  "category"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "reactionsSummary": {
+                                "description": "The summary of the reactions",
+                                "type": "object",
+                                "properties": {
+                                  "likesCount": {
+                                    "description": "The number of likes",
+                                    "type": "number"
+                                  },
+                                  "dislikesCount": {
+                                    "description": "The number of dislikes",
+                                    "type": "number"
+                                  },
+                                  "commentsCount": {
+                                    "description": "The number of comments",
+                                    "type": "number"
+                                  },
+                                  "isLiked": {
+                                    "description": "Whether the user has liked the model",
+                                    "type": "boolean"
+                                  },
+                                  "isDisliked": {
+                                    "description": "Whether the user has disliked the model",
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "likesCount",
+                                  "dislikesCount",
+                                  "commentsCount"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "kind": {
+                                "type": "string",
+                                "const": "Clip"
+                              }
+                            },
+                            "required": [
+                              "_id",
+                              "headline",
+                              "createdAt",
+                              "user",
+                              "reactionsSummary",
+                              "kind"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "modelType": {
+                          "type": "string",
+                          "const": "clips"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "items",
+                        "modelType"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "description": "The total number of videos found",
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "description": "The content ID",
+                                "type": "string"
+                              },
+                              "headline": {
+                                "description": "The content headline",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The content description",
+                                "type": "string"
+                              },
+                              "thumbnail": {
+                                "description": "The content thumbnail URL",
+                                "type": "string"
+                              },
+                              "url": {
+                                "description": "The content URL in Xeenon",
+                                "type": "string"
+                              },
+                              "tags": {
+                                "description": "The content tags",
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "isNSFW": {
+                                "description": "Whether the content is NSFW",
+                                "type": "boolean"
+                              },
+                              "durationSeconds": {
+                                "description": "The content duration in seconds",
+                                "type": "number"
+                              },
+                              "views": {
+                                "description": "The number of views",
+                                "type": "number"
+                              },
+                              "createdAt": {
+                                "description": "ISO 8601 when the content was created",
+                                "type": "string"
+                              },
+                              "user": {
+                                "description": "The content creator",
+                                "type": "object",
+                                "properties": {
+                                  "address": {
+                                    "description": "The Solana address of the user",
+                                    "type": "string"
+                                  },
+                                  "bannerImage": {
+                                    "description": "The banner image of the user",
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "description": "The description of the user",
+                                    "type": "string"
+                                  },
+                                  "displayName": {
+                                    "description": "The display name of the user",
+                                    "type": "string"
+                                  },
+                                  "isNSFW": {
+                                    "description": "Whether the user is NSFW",
+                                    "type": "boolean"
+                                  },
+                                  "isVerified": {
+                                    "description": "Whether the user is verified",
+                                    "type": "boolean"
+                                  },
+                                  "profileImage": {
+                                    "description": "The profile image of the user",
+                                    "type": "string"
+                                  },
+                                  "isLive": {
+                                    "description": "Whether the user is live",
+                                    "type": "boolean"
+                                  },
+                                  "followersCount": {
+                                    "description": "The number of followers of the user",
+                                    "type": "number"
+                                  },
+                                  "subscribersCount": {
+                                    "description": "The number of subscribers of the user",
+                                    "type": "number"
+                                  },
+                                  "profileUrl": {
+                                    "description": "The Xeenon profile URL of the user",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "isNSFW",
+                                  "isVerified",
+                                  "isLive",
+                                  "followersCount",
+                                  "subscribersCount",
+                                  "profileUrl"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "subcategory": {
+                                "description": "The content subcategory",
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "description": "The subcategory name",
+                                    "type": "string"
+                                  },
+                                  "slug": {
+                                    "description": "The subcategory slug",
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "description": "The subcategory description",
+                                    "type": "string"
+                                  },
+                                  "category": {
+                                    "description": "The category slug of the subcategory",
+                                    "type": "string"
+                                  },
+                                  "image": {
+                                    "description": "The subcategory image",
+                                    "type": "string"
+                                  },
+                                  "isNSFW": {
+                                    "description": "Whether the subcategory is NSFW",
+                                    "type": "boolean"
+                                  },
+                                  "tags": {
+                                    "description": "The subcategory tags",
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "name",
+                                  "slug",
+                                  "description",
+                                  "category"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "reactionsSummary": {
+                                "description": "The summary of the reactions",
+                                "type": "object",
+                                "properties": {
+                                  "likesCount": {
+                                    "description": "The number of likes",
+                                    "type": "number"
+                                  },
+                                  "dislikesCount": {
+                                    "description": "The number of dislikes",
+                                    "type": "number"
+                                  },
+                                  "commentsCount": {
+                                    "description": "The number of comments",
+                                    "type": "number"
+                                  },
+                                  "isLiked": {
+                                    "description": "Whether the user has liked the model",
+                                    "type": "boolean"
+                                  },
+                                  "isDisliked": {
+                                    "description": "Whether the user has disliked the model",
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "likesCount",
+                                  "dislikesCount",
+                                  "commentsCount"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "kind": {
+                                "type": "string",
+                                "const": "Video"
+                              }
+                            },
+                            "required": [
+                              "_id",
+                              "headline",
+                              "createdAt",
+                              "user",
+                              "reactionsSummary",
+                              "kind"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "modelType": {
+                          "type": "string",
+                          "const": "videos"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "items",
+                        "modelType"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "description": "The total number of streams found",
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "description": "The content ID",
+                                "type": "string"
+                              },
+                              "headline": {
+                                "description": "The content headline",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The content description",
+                                "type": "string"
+                              },
+                              "thumbnail": {
+                                "description": "The content thumbnail URL",
+                                "type": "string"
+                              },
+                              "url": {
+                                "description": "The content URL in Xeenon",
+                                "type": "string"
+                              },
+                              "tags": {
+                                "description": "The content tags",
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "isNSFW": {
+                                "description": "Whether the content is NSFW",
+                                "type": "boolean"
+                              },
+                              "durationSeconds": {
+                                "description": "The content duration in seconds",
+                                "type": "number"
+                              },
+                              "views": {
+                                "description": "The number of views",
+                                "type": "number"
+                              },
+                              "createdAt": {
+                                "description": "ISO 8601 when the content was created",
+                                "type": "string"
+                              },
+                              "user": {
+                                "description": "The content creator",
+                                "type": "object",
+                                "properties": {
+                                  "address": {
+                                    "description": "The Solana address of the user",
+                                    "type": "string"
+                                  },
+                                  "bannerImage": {
+                                    "description": "The banner image of the user",
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "description": "The description of the user",
+                                    "type": "string"
+                                  },
+                                  "displayName": {
+                                    "description": "The display name of the user",
+                                    "type": "string"
+                                  },
+                                  "isNSFW": {
+                                    "description": "Whether the user is NSFW",
+                                    "type": "boolean"
+                                  },
+                                  "isVerified": {
+                                    "description": "Whether the user is verified",
+                                    "type": "boolean"
+                                  },
+                                  "profileImage": {
+                                    "description": "The profile image of the user",
+                                    "type": "string"
+                                  },
+                                  "isLive": {
+                                    "description": "Whether the user is live",
+                                    "type": "boolean"
+                                  },
+                                  "followersCount": {
+                                    "description": "The number of followers of the user",
+                                    "type": "number"
+                                  },
+                                  "subscribersCount": {
+                                    "description": "The number of subscribers of the user",
+                                    "type": "number"
+                                  },
+                                  "profileUrl": {
+                                    "description": "The Xeenon profile URL of the user",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "isNSFW",
+                                  "isVerified",
+                                  "isLive",
+                                  "followersCount",
+                                  "subscribersCount",
+                                  "profileUrl"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "subcategory": {
+                                "description": "The content subcategory",
+                                "type": "object",
+                                "properties": {
+                                  "name": {
+                                    "description": "The subcategory name",
+                                    "type": "string"
+                                  },
+                                  "slug": {
+                                    "description": "The subcategory slug",
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "description": "The subcategory description",
+                                    "type": "string"
+                                  },
+                                  "category": {
+                                    "description": "The category slug of the subcategory",
+                                    "type": "string"
+                                  },
+                                  "image": {
+                                    "description": "The subcategory image",
+                                    "type": "string"
+                                  },
+                                  "isNSFW": {
+                                    "description": "Whether the subcategory is NSFW",
+                                    "type": "boolean"
+                                  },
+                                  "tags": {
+                                    "description": "The subcategory tags",
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "name",
+                                  "slug",
+                                  "description",
+                                  "category"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "reactionsSummary": {
+                                "description": "The summary of the reactions",
+                                "type": "object",
+                                "properties": {
+                                  "likesCount": {
+                                    "description": "The number of likes",
+                                    "type": "number"
+                                  },
+                                  "dislikesCount": {
+                                    "description": "The number of dislikes",
+                                    "type": "number"
+                                  },
+                                  "commentsCount": {
+                                    "description": "The number of comments",
+                                    "type": "number"
+                                  },
+                                  "isLiked": {
+                                    "description": "Whether the user has liked the model",
+                                    "type": "boolean"
+                                  },
+                                  "isDisliked": {
+                                    "description": "Whether the user has disliked the model",
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "likesCount",
+                                  "dislikesCount",
+                                  "commentsCount"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "kind": {
+                                "type": "string",
+                                "const": "Stream"
+                              }
+                            },
+                            "required": [
+                              "_id",
+                              "headline",
+                              "createdAt",
+                              "user",
+                              "reactionsSummary",
+                              "kind"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "modelType": {
+                          "type": "string",
+                          "const": "streams"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "items",
+                        "modelType"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "description": "The total number of subcategories found",
+                          "type": "number"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "description": "The subcategory name",
+                                "type": "string"
+                              },
+                              "slug": {
+                                "description": "The subcategory slug",
+                                "type": "string"
+                              },
+                              "description": {
+                                "description": "The subcategory description",
+                                "type": "string"
+                              },
+                              "category": {
+                                "description": "The category slug of the subcategory",
+                                "type": "string"
+                              },
+                              "image": {
+                                "description": "The subcategory image",
+                                "type": "string"
+                              },
+                              "isNSFW": {
+                                "description": "Whether the subcategory is NSFW",
+                                "type": "boolean"
+                              },
+                              "tags": {
+                                "description": "The subcategory tags",
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "slug",
+                              "description",
+                              "category"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "modelType": {
+                          "type": "string",
+                          "const": "categories"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "items",
+                        "modelType"
+                      ],
+                      "additionalProperties": false
                     }
-                  },
-                  "required": [
-                    "count",
-                    "items"
                   ],
-                  "additionalProperties": false
+                  "type": "object"
                 }
               }
             }
@@ -2444,7 +3176,7 @@
             }
           }
         },
-        "operationId": "getSearchUsers",
+        "operationId": "getSearchByModelType",
         "tags": [
           "Search"
         ],
@@ -2480,973 +3212,26 @@
               "default": 0,
               "type": "number",
               "minimum": 0
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "modelType",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "users",
+                "clips",
+                "videos",
+                "streams",
+                "categories"
+              ]
             },
             "required": true
           }
         ],
         "description": "Search Xeenon users by name or address"
-      }
-    },
-    "/search/clips": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": {
-                      "description": "The total number of clips found",
-                      "type": "number"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "_id": {
-                            "description": "The content ID",
-                            "type": "string"
-                          },
-                          "headline": {
-                            "description": "The content headline",
-                            "type": "string"
-                          },
-                          "description": {
-                            "description": "The content description",
-                            "type": "string"
-                          },
-                          "thumbnail": {
-                            "description": "The content thumbnail URL",
-                            "type": "string"
-                          },
-                          "url": {
-                            "description": "The content URL in Xeenon",
-                            "type": "string"
-                          },
-                          "tags": {
-                            "description": "The content tags",
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "isNSFW": {
-                            "description": "Whether the content is NSFW",
-                            "type": "boolean"
-                          },
-                          "durationSeconds": {
-                            "description": "The content duration in seconds",
-                            "type": "number"
-                          },
-                          "views": {
-                            "description": "The number of views",
-                            "type": "number"
-                          },
-                          "createdAt": {
-                            "description": "ISO 8601 when the content was created",
-                            "type": "string"
-                          },
-                          "user": {
-                            "description": "The content creator",
-                            "type": "object",
-                            "properties": {
-                              "address": {
-                                "description": "The Solana address of the user",
-                                "type": "string"
-                              },
-                              "bannerImage": {
-                                "description": "The banner image of the user",
-                                "type": "string"
-                              },
-                              "description": {
-                                "description": "The description of the user",
-                                "type": "string"
-                              },
-                              "displayName": {
-                                "description": "The display name of the user",
-                                "type": "string"
-                              },
-                              "isNSFW": {
-                                "description": "Whether the user is NSFW",
-                                "type": "boolean"
-                              },
-                              "isVerified": {
-                                "description": "Whether the user is verified",
-                                "type": "boolean"
-                              },
-                              "profileImage": {
-                                "description": "The profile image of the user",
-                                "type": "string"
-                              },
-                              "isLive": {
-                                "description": "Whether the user is live",
-                                "type": "boolean"
-                              },
-                              "followersCount": {
-                                "description": "The number of followers of the user",
-                                "type": "number"
-                              },
-                              "subscribersCount": {
-                                "description": "The number of subscribers of the user",
-                                "type": "number"
-                              },
-                              "profileUrl": {
-                                "description": "The Xeenon profile URL of the user",
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "address",
-                              "isNSFW",
-                              "isVerified",
-                              "isLive",
-                              "followersCount",
-                              "subscribersCount",
-                              "profileUrl"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "subcategory": {
-                            "description": "The content subcategory",
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "description": "The subcategory name",
-                                "type": "string"
-                              },
-                              "slug": {
-                                "description": "The subcategory slug",
-                                "type": "string"
-                              },
-                              "description": {
-                                "description": "The subcategory description",
-                                "type": "string"
-                              },
-                              "category": {
-                                "description": "The category slug of the subcategory",
-                                "type": "string"
-                              },
-                              "image": {
-                                "description": "The subcategory image",
-                                "type": "string"
-                              },
-                              "isNSFW": {
-                                "description": "Whether the subcategory is NSFW",
-                                "type": "boolean"
-                              },
-                              "tags": {
-                                "description": "The subcategory tags",
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "slug",
-                              "description",
-                              "category"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "reactionsSummary": {
-                            "description": "The summary of the reactions",
-                            "type": "object",
-                            "properties": {
-                              "likesCount": {
-                                "description": "The number of likes",
-                                "type": "number"
-                              },
-                              "dislikesCount": {
-                                "description": "The number of dislikes",
-                                "type": "number"
-                              },
-                              "commentsCount": {
-                                "description": "The number of comments",
-                                "type": "number"
-                              },
-                              "isLiked": {
-                                "description": "Whether the user has liked the model",
-                                "type": "boolean"
-                              },
-                              "isDisliked": {
-                                "description": "Whether the user has disliked the model",
-                                "type": "boolean"
-                              }
-                            },
-                            "required": [
-                              "likesCount",
-                              "dislikesCount",
-                              "commentsCount"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "kind": {
-                            "type": "string",
-                            "const": "Clip"
-                          }
-                        },
-                        "required": [
-                          "_id",
-                          "headline",
-                          "createdAt",
-                          "user",
-                          "reactionsSummary",
-                          "kind"
-                        ],
-                        "additionalProperties": false
-                      }
-                    }
-                  },
-                  "required": [
-                    "count",
-                    "items"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getSearchClips",
-        "tags": [
-          "Search"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "query",
-            "schema": {
-              "description": "The search query",
-              "type": "string",
-              "minLength": 3,
-              "maxLength": 100
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "description": "The limit of the search results",
-              "default": 10,
-              "type": "number",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "skip",
-            "schema": {
-              "description": "The skip of the search results",
-              "default": 0,
-              "type": "number",
-              "minimum": 0
-            },
-            "required": true
-          }
-        ],
-        "description": "Search Xeenon clips by title or description"
-      }
-    },
-    "/search/videos": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": {
-                      "description": "The total number of videos found",
-                      "type": "number"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "_id": {
-                            "description": "The content ID",
-                            "type": "string"
-                          },
-                          "headline": {
-                            "description": "The content headline",
-                            "type": "string"
-                          },
-                          "description": {
-                            "description": "The content description",
-                            "type": "string"
-                          },
-                          "thumbnail": {
-                            "description": "The content thumbnail URL",
-                            "type": "string"
-                          },
-                          "url": {
-                            "description": "The content URL in Xeenon",
-                            "type": "string"
-                          },
-                          "tags": {
-                            "description": "The content tags",
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "isNSFW": {
-                            "description": "Whether the content is NSFW",
-                            "type": "boolean"
-                          },
-                          "durationSeconds": {
-                            "description": "The content duration in seconds",
-                            "type": "number"
-                          },
-                          "views": {
-                            "description": "The number of views",
-                            "type": "number"
-                          },
-                          "createdAt": {
-                            "description": "ISO 8601 when the content was created",
-                            "type": "string"
-                          },
-                          "user": {
-                            "description": "The content creator",
-                            "type": "object",
-                            "properties": {
-                              "address": {
-                                "description": "The Solana address of the user",
-                                "type": "string"
-                              },
-                              "bannerImage": {
-                                "description": "The banner image of the user",
-                                "type": "string"
-                              },
-                              "description": {
-                                "description": "The description of the user",
-                                "type": "string"
-                              },
-                              "displayName": {
-                                "description": "The display name of the user",
-                                "type": "string"
-                              },
-                              "isNSFW": {
-                                "description": "Whether the user is NSFW",
-                                "type": "boolean"
-                              },
-                              "isVerified": {
-                                "description": "Whether the user is verified",
-                                "type": "boolean"
-                              },
-                              "profileImage": {
-                                "description": "The profile image of the user",
-                                "type": "string"
-                              },
-                              "isLive": {
-                                "description": "Whether the user is live",
-                                "type": "boolean"
-                              },
-                              "followersCount": {
-                                "description": "The number of followers of the user",
-                                "type": "number"
-                              },
-                              "subscribersCount": {
-                                "description": "The number of subscribers of the user",
-                                "type": "number"
-                              },
-                              "profileUrl": {
-                                "description": "The Xeenon profile URL of the user",
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "address",
-                              "isNSFW",
-                              "isVerified",
-                              "isLive",
-                              "followersCount",
-                              "subscribersCount",
-                              "profileUrl"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "subcategory": {
-                            "description": "The content subcategory",
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "description": "The subcategory name",
-                                "type": "string"
-                              },
-                              "slug": {
-                                "description": "The subcategory slug",
-                                "type": "string"
-                              },
-                              "description": {
-                                "description": "The subcategory description",
-                                "type": "string"
-                              },
-                              "category": {
-                                "description": "The category slug of the subcategory",
-                                "type": "string"
-                              },
-                              "image": {
-                                "description": "The subcategory image",
-                                "type": "string"
-                              },
-                              "isNSFW": {
-                                "description": "Whether the subcategory is NSFW",
-                                "type": "boolean"
-                              },
-                              "tags": {
-                                "description": "The subcategory tags",
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "slug",
-                              "description",
-                              "category"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "reactionsSummary": {
-                            "description": "The summary of the reactions",
-                            "type": "object",
-                            "properties": {
-                              "likesCount": {
-                                "description": "The number of likes",
-                                "type": "number"
-                              },
-                              "dislikesCount": {
-                                "description": "The number of dislikes",
-                                "type": "number"
-                              },
-                              "commentsCount": {
-                                "description": "The number of comments",
-                                "type": "number"
-                              },
-                              "isLiked": {
-                                "description": "Whether the user has liked the model",
-                                "type": "boolean"
-                              },
-                              "isDisliked": {
-                                "description": "Whether the user has disliked the model",
-                                "type": "boolean"
-                              }
-                            },
-                            "required": [
-                              "likesCount",
-                              "dislikesCount",
-                              "commentsCount"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "kind": {
-                            "type": "string",
-                            "const": "Video"
-                          }
-                        },
-                        "required": [
-                          "_id",
-                          "headline",
-                          "createdAt",
-                          "user",
-                          "reactionsSummary",
-                          "kind"
-                        ],
-                        "additionalProperties": false
-                      }
-                    }
-                  },
-                  "required": [
-                    "count",
-                    "items"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getSearchVideos",
-        "tags": [
-          "Search"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "query",
-            "schema": {
-              "description": "The search query",
-              "type": "string",
-              "minLength": 3,
-              "maxLength": 100
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "description": "The limit of the search results",
-              "default": 10,
-              "type": "number",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "skip",
-            "schema": {
-              "description": "The skip of the search results",
-              "default": 0,
-              "type": "number",
-              "minimum": 0
-            },
-            "required": true
-          }
-        ],
-        "description": "Search Xeenon videos by title or description"
-      }
-    },
-    "/search/streams": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": {
-                      "description": "The total number of streams found",
-                      "type": "number"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "_id": {
-                            "description": "The content ID",
-                            "type": "string"
-                          },
-                          "headline": {
-                            "description": "The content headline",
-                            "type": "string"
-                          },
-                          "description": {
-                            "description": "The content description",
-                            "type": "string"
-                          },
-                          "thumbnail": {
-                            "description": "The content thumbnail URL",
-                            "type": "string"
-                          },
-                          "url": {
-                            "description": "The content URL in Xeenon",
-                            "type": "string"
-                          },
-                          "tags": {
-                            "description": "The content tags",
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "isNSFW": {
-                            "description": "Whether the content is NSFW",
-                            "type": "boolean"
-                          },
-                          "durationSeconds": {
-                            "description": "The content duration in seconds",
-                            "type": "number"
-                          },
-                          "views": {
-                            "description": "The number of views",
-                            "type": "number"
-                          },
-                          "createdAt": {
-                            "description": "ISO 8601 when the content was created",
-                            "type": "string"
-                          },
-                          "user": {
-                            "description": "The content creator",
-                            "type": "object",
-                            "properties": {
-                              "address": {
-                                "description": "The Solana address of the user",
-                                "type": "string"
-                              },
-                              "bannerImage": {
-                                "description": "The banner image of the user",
-                                "type": "string"
-                              },
-                              "description": {
-                                "description": "The description of the user",
-                                "type": "string"
-                              },
-                              "displayName": {
-                                "description": "The display name of the user",
-                                "type": "string"
-                              },
-                              "isNSFW": {
-                                "description": "Whether the user is NSFW",
-                                "type": "boolean"
-                              },
-                              "isVerified": {
-                                "description": "Whether the user is verified",
-                                "type": "boolean"
-                              },
-                              "profileImage": {
-                                "description": "The profile image of the user",
-                                "type": "string"
-                              },
-                              "isLive": {
-                                "description": "Whether the user is live",
-                                "type": "boolean"
-                              },
-                              "followersCount": {
-                                "description": "The number of followers of the user",
-                                "type": "number"
-                              },
-                              "subscribersCount": {
-                                "description": "The number of subscribers of the user",
-                                "type": "number"
-                              },
-                              "profileUrl": {
-                                "description": "The Xeenon profile URL of the user",
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "address",
-                              "isNSFW",
-                              "isVerified",
-                              "isLive",
-                              "followersCount",
-                              "subscribersCount",
-                              "profileUrl"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "subcategory": {
-                            "description": "The content subcategory",
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "description": "The subcategory name",
-                                "type": "string"
-                              },
-                              "slug": {
-                                "description": "The subcategory slug",
-                                "type": "string"
-                              },
-                              "description": {
-                                "description": "The subcategory description",
-                                "type": "string"
-                              },
-                              "category": {
-                                "description": "The category slug of the subcategory",
-                                "type": "string"
-                              },
-                              "image": {
-                                "description": "The subcategory image",
-                                "type": "string"
-                              },
-                              "isNSFW": {
-                                "description": "Whether the subcategory is NSFW",
-                                "type": "boolean"
-                              },
-                              "tags": {
-                                "description": "The subcategory tags",
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "slug",
-                              "description",
-                              "category"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "reactionsSummary": {
-                            "description": "The summary of the reactions",
-                            "type": "object",
-                            "properties": {
-                              "likesCount": {
-                                "description": "The number of likes",
-                                "type": "number"
-                              },
-                              "dislikesCount": {
-                                "description": "The number of dislikes",
-                                "type": "number"
-                              },
-                              "commentsCount": {
-                                "description": "The number of comments",
-                                "type": "number"
-                              },
-                              "isLiked": {
-                                "description": "Whether the user has liked the model",
-                                "type": "boolean"
-                              },
-                              "isDisliked": {
-                                "description": "Whether the user has disliked the model",
-                                "type": "boolean"
-                              }
-                            },
-                            "required": [
-                              "likesCount",
-                              "dislikesCount",
-                              "commentsCount"
-                            ],
-                            "additionalProperties": false
-                          },
-                          "kind": {
-                            "type": "string",
-                            "const": "Stream"
-                          }
-                        },
-                        "required": [
-                          "_id",
-                          "headline",
-                          "createdAt",
-                          "user",
-                          "reactionsSummary",
-                          "kind"
-                        ],
-                        "additionalProperties": false
-                      }
-                    }
-                  },
-                  "required": [
-                    "count",
-                    "items"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getSearchStreams",
-        "tags": [
-          "Search"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "query",
-            "schema": {
-              "description": "The search query",
-              "type": "string",
-              "minLength": 3,
-              "maxLength": 100
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "description": "The limit of the search results",
-              "default": 10,
-              "type": "number",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "skip",
-            "schema": {
-              "description": "The skip of the search results",
-              "default": 0,
-              "type": "number",
-              "minimum": 0
-            },
-            "required": true
-          }
-        ],
-        "description": "Search Xeenon streams by title or description"
-      }
-    },
-    "/search/categories": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": {
-                      "description": "The total number of subcategories found",
-                      "type": "number"
-                    },
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "description": "The subcategory name",
-                            "type": "string"
-                          },
-                          "slug": {
-                            "description": "The subcategory slug",
-                            "type": "string"
-                          },
-                          "description": {
-                            "description": "The subcategory description",
-                            "type": "string"
-                          },
-                          "category": {
-                            "description": "The category slug of the subcategory",
-                            "type": "string"
-                          },
-                          "image": {
-                            "description": "The subcategory image",
-                            "type": "string"
-                          },
-                          "isNSFW": {
-                            "description": "Whether the subcategory is NSFW",
-                            "type": "boolean"
-                          },
-                          "tags": {
-                            "description": "The subcategory tags",
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "slug",
-                          "description",
-                          "category"
-                        ],
-                        "additionalProperties": false
-                      }
-                    }
-                  },
-                  "required": [
-                    "count",
-                    "items"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getSearchCategories",
-        "tags": [
-          "Search"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "query",
-            "schema": {
-              "description": "The search query",
-              "type": "string",
-              "minLength": 3,
-              "maxLength": 100
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "description": "The limit of the search results",
-              "default": 10,
-              "type": "number",
-              "minimum": 1,
-              "maximum": 100
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "skip",
-            "schema": {
-              "description": "The skip of the search results",
-              "default": 0,
-              "type": "number",
-              "minimum": 0
-            },
-            "required": true
-          }
-        ],
-        "description": "Search Xeenon content subcategories by name or description"
       }
     },
     "/streams": {
@@ -3711,254 +3496,16 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "description": "Get Xeenon live streams by category or subcategory"
-      }
-    },
-    "/streams/own": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "_id": {
-                        "description": "The content ID",
-                        "type": "string"
-                      },
-                      "headline": {
-                        "description": "The content headline",
-                        "type": "string"
-                      },
-                      "description": {
-                        "description": "The content description",
-                        "type": "string"
-                      },
-                      "thumbnail": {
-                        "description": "The content thumbnail URL",
-                        "type": "string"
-                      },
-                      "url": {
-                        "description": "The content URL in Xeenon",
-                        "type": "string"
-                      },
-                      "tags": {
-                        "description": "The content tags",
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
-                      "isNSFW": {
-                        "description": "Whether the content is NSFW",
-                        "type": "boolean"
-                      },
-                      "durationSeconds": {
-                        "description": "The content duration in seconds",
-                        "type": "number"
-                      },
-                      "views": {
-                        "description": "The number of views",
-                        "type": "number"
-                      },
-                      "createdAt": {
-                        "description": "ISO 8601 when the content was created",
-                        "type": "string"
-                      },
-                      "user": {
-                        "description": "The content creator",
-                        "type": "object",
-                        "properties": {
-                          "address": {
-                            "description": "The Solana address of the user",
-                            "type": "string"
-                          },
-                          "bannerImage": {
-                            "description": "The banner image of the user",
-                            "type": "string"
-                          },
-                          "description": {
-                            "description": "The description of the user",
-                            "type": "string"
-                          },
-                          "displayName": {
-                            "description": "The display name of the user",
-                            "type": "string"
-                          },
-                          "isNSFW": {
-                            "description": "Whether the user is NSFW",
-                            "type": "boolean"
-                          },
-                          "isVerified": {
-                            "description": "Whether the user is verified",
-                            "type": "boolean"
-                          },
-                          "profileImage": {
-                            "description": "The profile image of the user",
-                            "type": "string"
-                          },
-                          "isLive": {
-                            "description": "Whether the user is live",
-                            "type": "boolean"
-                          },
-                          "followersCount": {
-                            "description": "The number of followers of the user",
-                            "type": "number"
-                          },
-                          "subscribersCount": {
-                            "description": "The number of subscribers of the user",
-                            "type": "number"
-                          },
-                          "profileUrl": {
-                            "description": "The Xeenon profile URL of the user",
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "address",
-                          "isNSFW",
-                          "isVerified",
-                          "isLive",
-                          "followersCount",
-                          "subscribersCount",
-                          "profileUrl"
-                        ],
-                        "additionalProperties": false
-                      },
-                      "subcategory": {
-                        "description": "The content subcategory",
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "description": "The subcategory name",
-                            "type": "string"
-                          },
-                          "slug": {
-                            "description": "The subcategory slug",
-                            "type": "string"
-                          },
-                          "description": {
-                            "description": "The subcategory description",
-                            "type": "string"
-                          },
-                          "category": {
-                            "description": "The category slug of the subcategory",
-                            "type": "string"
-                          },
-                          "image": {
-                            "description": "The subcategory image",
-                            "type": "string"
-                          },
-                          "isNSFW": {
-                            "description": "Whether the subcategory is NSFW",
-                            "type": "boolean"
-                          },
-                          "tags": {
-                            "description": "The subcategory tags",
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "slug",
-                          "description",
-                          "category"
-                        ],
-                        "additionalProperties": false
-                      },
-                      "reactionsSummary": {
-                        "description": "The summary of the reactions",
-                        "type": "object",
-                        "properties": {
-                          "likesCount": {
-                            "description": "The number of likes",
-                            "type": "number"
-                          },
-                          "dislikesCount": {
-                            "description": "The number of dislikes",
-                            "type": "number"
-                          },
-                          "commentsCount": {
-                            "description": "The number of comments",
-                            "type": "number"
-                          },
-                          "isLiked": {
-                            "description": "Whether the user has liked the model",
-                            "type": "boolean"
-                          },
-                          "isDisliked": {
-                            "description": "Whether the user has disliked the model",
-                            "type": "boolean"
-                          }
-                        },
-                        "required": [
-                          "likesCount",
-                          "dislikesCount",
-                          "commentsCount"
-                        ],
-                        "additionalProperties": false
-                      },
-                      "kind": {
-                        "type": "string",
-                        "const": "Stream"
-                      },
-                      "liveAt": {
-                        "description": "The ISO date and time the stream started",
-                        "type": "string"
-                      },
-                      "currentViewers": {
-                        "description": "The current number of viewers",
-                        "type": "number"
-                      },
-                      "maxViewers": {
-                        "description": "The maximum number of viewers",
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "_id",
-                      "headline",
-                      "createdAt",
-                      "user",
-                      "reactionsSummary",
-                      "kind",
-                      "liveAt",
-                      "currentViewers",
-                      "maxViewers"
-                    ],
-                    "additionalProperties": false
-                  }
-                }
-              }
-            }
           },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
+          {
+            "in": "query",
+            "name": "onlyMyStreams",
+            "schema": {
+              "type": "boolean"
             }
           }
-        },
-        "operationId": "getStreamsOwn",
-        "tags": [
-          "Stream"
         ],
-        "parameters": [],
-        "description": "Get Xeenon live stream(s) for the current user"
+        "description": "Get Xeenon live streams by category or subcategory. If onlyMyStreams is true, it will only return the streams for the current user"
       }
     },
     "/streams/settings": {
@@ -4200,7 +3747,7 @@
             }
           }
         },
-        "operationId": "getTokensPlatformHistory",
+        "operationId": "getPlatformValueHistory",
         "tags": [
           "Tokens"
         ],
@@ -4438,7 +3985,7 @@
             }
           }
         },
-        "operationId": "getTokensPlatformActivity",
+        "operationId": "getPlatformActivity",
         "tags": [
           "Tokens"
         ],
@@ -4501,7 +4048,7 @@
             }
           }
         },
-        "operationId": "getTokensPlatform",
+        "operationId": "getPlatformNow",
         "tags": [
           "Tokens"
         ],
@@ -4840,7 +4387,7 @@
             }
           }
         },
-        "operationId": "getTokensPortfolio",
+        "operationId": "getPortfolioNow",
         "tags": [
           "Tokens"
         ],
@@ -4940,7 +4487,7 @@
             }
           }
         },
-        "operationId": "getTokensPortfolioHistory",
+        "operationId": "getPortfolioHistory",
         "tags": [
           "Tokens"
         ],
@@ -5042,7 +4589,7 @@
             }
           }
         },
-        "operationId": "getTokensClaimed-rewards-history",
+        "operationId": "getUserClaimedRewardsHistory",
         "tags": [
           "Tokens"
         ],
@@ -5112,7 +4659,7 @@
             }
           }
         },
-        "operationId": "getTokensClaimed-rewards-summary",
+        "operationId": "getUserClaimedRewardsSummary",
         "tags": [
           "Tokens"
         ],
@@ -5288,7 +4835,7 @@
             }
           }
         },
-        "operationId": "getTokensActivity",
+        "operationId": "getUserActivity",
         "tags": [
           "Tokens"
         ],
@@ -5410,7 +4957,7 @@
             }
           }
         },
-        "operationId": "getTokensByTokenAddress",
+        "operationId": "getToken",
         "tags": [
           "Tokens"
         ],
@@ -5494,7 +5041,7 @@
             }
           }
         },
-        "operationId": "getTokensByTokenAddressPrice-history",
+        "operationId": "getTokenPriceHistory",
         "tags": [
           "Tokens"
         ],
@@ -5667,7 +5214,7 @@
             }
           }
         },
-        "operationId": "getTokensByTokenAddressTrades",
+        "operationId": "getTokenTrades",
         "tags": [
           "Tokens"
         ],
@@ -5849,7 +5396,7 @@
             }
           }
         },
-        "operationId": "getTokensByTokenAddressActivity",
+        "operationId": "getTokenActivity",
         "tags": [
           "Tokens"
         ],
@@ -5915,7 +5462,7 @@
             }
           }
         },
-        "operationId": "getTokensByTokenAddressDebt-positions-count",
+        "operationId": "getTokenDebtPositionsCount",
         "tags": [
           "Tokens"
         ],
@@ -5977,7 +5524,7 @@
             }
           }
         },
-        "operationId": "getTokensByTokenAddressRewards-performance-summary",
+        "operationId": "getTokenRewardsPerformanceSummary",
         "tags": [
           "Tokens"
         ],
@@ -6044,7 +5591,7 @@
             }
           }
         },
-        "operationId": "getTokensByTokenAddressHolders-summary",
+        "operationId": "getTokenHoldersSummary",
         "tags": [
           "Tokens"
         ],
@@ -6061,96 +5608,7 @@
         "description": "Get the holders summary of a token (total holders, new holders in the last week, total stakers, top 10 holdings)"
       }
     },
-    "/users/whoami": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "address": {
-                      "description": "The Solana address of the user",
-                      "type": "string"
-                    },
-                    "bannerImage": {
-                      "description": "The banner image of the user",
-                      "type": "string"
-                    },
-                    "description": {
-                      "description": "The description of the user",
-                      "type": "string"
-                    },
-                    "displayName": {
-                      "description": "The display name of the user",
-                      "type": "string"
-                    },
-                    "isNSFW": {
-                      "description": "Whether the user is NSFW",
-                      "type": "boolean"
-                    },
-                    "isVerified": {
-                      "description": "Whether the user is verified",
-                      "type": "boolean"
-                    },
-                    "profileImage": {
-                      "description": "The profile image of the user",
-                      "type": "string"
-                    },
-                    "isLive": {
-                      "description": "Whether the user is live",
-                      "type": "boolean"
-                    },
-                    "followersCount": {
-                      "description": "The number of followers of the user",
-                      "type": "number"
-                    },
-                    "subscribersCount": {
-                      "description": "The number of subscribers of the user",
-                      "type": "number"
-                    },
-                    "profileUrl": {
-                      "description": "The Xeenon profile URL of the user",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "address",
-                    "isNSFW",
-                    "isVerified",
-                    "isLive",
-                    "followersCount",
-                    "subscribersCount",
-                    "profileUrl"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getUsersWhoami",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [],
-        "description": "Get the current user"
-      }
-    },
-    "/users/{address}": {
+    "/users/{addressOrMe}": {
       "get": {
         "responses": {
           "200": {
@@ -6242,22 +5700,22 @@
             }
           }
         },
-        "operationId": "getUsersByAddress",
+        "operationId": "getUsersByAddressOrMe",
         "tags": [
           "Users"
         ],
         "parameters": [
           {
             "in": "path",
-            "name": "address",
+            "name": "addressOrMe",
             "schema": {
-              "description": "The Solana address of the user",
+              "description": "The Solana address of the user or \"me\" to get the current user profile",
               "type": "string"
             },
             "required": true
           }
         ],
-        "description": "Get a user public profile by their Solana address"
+        "description": "Get a user public profile by their Solana address or get the current user profile"
       }
     }
   }
