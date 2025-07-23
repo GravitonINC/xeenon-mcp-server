@@ -2,13 +2,13 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Xeenon Public API",
-    "description": "TODO: Add description",
-    "version": "1.0.0"
+    "description": "The Xeenon Public API provides comprehensive access to the Xeenon streaming and tokenization platform. This API enables developers to integrate with Xeenon's ecosystem, offering endpoints for content discovery, social interactions, token trading, real-time communication, and portfolio management. Key features include: streaming content and live stream management, social features like following users and reactions, token trading and portfolio analytics, real-time events via Server-Sent Events (SSE), search functionality across users and content, and comprehensive user profile management.\n\n**Authentication Required**:\nAll endpoints require an API key. To get started:\n\n1) Visit [https://xeenon.xyz/settings/developer](https://xeenon.xyz/settings/developer),\n2) Activate the Public API feature,\n3) Generate your API key. Include the key in the `X-API-Key` header for all requests.",
+    "version": "0.0.2"
   },
   "servers": [
     {
-      "url": "https://dev.public-api.xeenon.xyz",
-      "description": "Dev server"
+      "url": "https://main.public-api.xeenon.xyz",
+      "description": "Xeenon Public API"
     }
   ],
   "components": {
@@ -133,7 +133,7 @@
           "Chat"
         ],
         "parameters": [],
-        "description": "Get the recent messages for requesting user's channel"
+        "description": "Retrieve recent chat messages from the authenticated user's channel"
       },
       "post": {
         "responses": {
@@ -236,7 +236,7 @@
           "Chat"
         ],
         "parameters": [],
-        "description": "Send a message to requesting user's channel. Should have joined the channel first in xeenon.xyz or in the mobile app",
+        "description": "Send a chat message to the authenticated user's channel (requires prior channel join via xeenon.xyz or mobile app)",
         "requestBody": {
           "content": {
             "application/json": {
@@ -375,7 +375,7 @@
             "required": true
           }
         ],
-        "description": "Get the recent messages for a chat channel"
+        "description": "Retrieve recent chat messages from a specific user's channel by their Solana address"
       }
     },
     "/content": {
@@ -664,7 +664,7 @@
             }
           }
         ],
-        "description": "Get Xeenon content (Clips, Videos, Streams)"
+        "description": "Fetch Xeenon content including clips, videos, and streams with filtering options"
       }
     },
     "/content/categories": {
@@ -731,7 +731,7 @@
           "Content"
         ],
         "parameters": [],
-        "description": "Get all Xeenon content categories"
+        "description": "Retrieve all available Xeenon content categories for filtering and organization"
       }
     },
     "/leaderboard": {
@@ -869,7 +869,7 @@
             }
           }
         ],
-        "description": "Get Xeenon leaderboard by month or category"
+        "description": "Retrieve Xeenon leaderboard rankings filtered by month or category"
       }
     },
     "/follow": {
@@ -952,7 +952,7 @@
           "Follow"
         ],
         "parameters": [],
-        "description": "Follow a user",
+        "description": "Follow a user by their Solana address with notification preferences",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1052,7 +1052,7 @@
           "Follow"
         ],
         "parameters": [],
-        "description": "Unfollow a user",
+        "description": "Unfollow a user by their Solana address",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1198,7 +1198,7 @@
             "required": true
           }
         ],
-        "description": "Get the users the user is following"
+        "description": "Retrieve list of users that the authenticated user is following"
       }
     },
     "/follow/followers": {
@@ -1325,7 +1325,7 @@
             "required": true
           }
         ],
-        "description": "Get the users following the user"
+        "description": "Retrieve list of users who are following the authenticated user"
       }
     },
     "/follow/content": {
@@ -1581,7 +1581,7 @@
             "required": true
           }
         ],
-        "description": "Get the content of users the user is following"
+        "description": "Fetch content (clips, videos, streams) from users that the authenticated user follows"
       }
     },
     "/reactions": {
@@ -1680,7 +1680,7 @@
           "Reactions"
         ],
         "parameters": [],
-        "description": "Create a reaction (like/dislike) on a model",
+        "description": "Add a like or dislike reaction to content (videos, clips, streams) or comments",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1762,7 +1762,7 @@
           "Reactions"
         ],
         "parameters": [],
-        "description": "Remove a reaction (like/dislike) from a model",
+        "description": "Remove a previously added like or dislike reaction from content or comments",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1959,7 +1959,7 @@
           "Reactions"
         ],
         "parameters": [],
-        "description": "Create a comment",
+        "description": "Post a comment on content (videos, clips) or reply to existing comments",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2218,7 +2218,7 @@
             "required": false
           }
         ],
-        "description": "Get comments for a model"
+        "description": "Retrieve comments and replies for specific content with pagination support"
       }
     },
     "/reactions/comments/{id}": {
@@ -2271,7 +2271,7 @@
             "required": true
           }
         ],
-        "description": "Delete a comment"
+        "description": "Delete a comment that was posted by the authenticated user"
       },
       "patch": {
         "responses": {
@@ -2322,7 +2322,7 @@
             "required": true
           }
         ],
-        "description": "Edit a comment",
+        "description": "Edit the content of a comment posted by the authenticated user",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3231,7 +3231,131 @@
             "required": true
           }
         ],
-        "description": "Search Xeenon users by name or address"
+        "description": "Search Xeenon users, clips, videos, streams, or categories"
+      }
+    },
+    "/sse/signed-url": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "description": "The signed SSE URL",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postSseSigned-url",
+        "tags": [
+          "SSE"
+        ],
+        "parameters": [],
+        "description": "Generate a signed SSE URL for establishing real-time event connections (URL remains valid until expiry; invalidating API key invalidates all associated signed URLs)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ttl": {
+                    "description": "The TTL of the SSE URL in seconds. Omit to generate a signed URL that doesn't expire.",
+                    "type": "number"
+                  },
+                  "channels": {
+                    "minItems": 1,
+                    "maxItems": 4,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "channels"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sse/events": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "SSE event stream with real-time events based on subscribed channels",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "description": "\nServer-Sent Events stream containing JSON events with the following structure:\n- Event format: data: {\"type\": \"event-type\", \"payload\": {...}}\n\nChannel Types:\n1. \"user\" - Subscribe to user-specific events:\n   • start-stream: {\"type\": \"start-stream\", \"payload\": {\"streamId\": \"string\", \"userId\": \"string\"}}\n   • stop-stream: {\"type\": \"stop-stream\", \"payload\": {\"streamId\": \"string\", \"userId\": \"string\"}}\n   • new-clip: {\"type\": \"new-clip\", \"payload\": {\"clipId\": \"string\", \"clipperId\": \"string\", \"userId\": \"string\"}}\n   • gems-updated: {\"type\": \"gems-updated\", \"payload\": {\"userId\": \"string\", \"gems\": number}}\n   • stream-likes-count-updated: {\"type\": \"stream-likes-count-updated\", \"payload\": {\"streamId\": \"string\", \"userId\": \"string\", \"count\": number}}\n   • in-app-notification: {\"type\": \"in-app-notification\", \"payload\": {...notification details...}}\n\n2. \"token:{address}\" or \"token:my\" - Subscribe to token activity events:\n   • token-activity: {\"type\": \"token-activity\", \"payload\": {\"userAddress\": \"string\", \"type\": \"buy|sell|...\", \"amount\": number, \"signature\": \"string\", \"createdAt\": \"ISO string\", \"user\": {...user object...}, \"token\": null}}\n\nConnection stays open and events are pushed in real-time as they occur.\n                ",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getSseEvents",
+        "tags": [
+          "SSE"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "channels",
+            "schema": {
+              "description": "Comma separated list of channels to subscribe to.",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "token",
+            "schema": {
+              "description": "The SSE token.",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "description": "Establish real-time Server-Sent Events connection to receive live updates from subscribed channels (user events, token activity). Authentication via token parameter, not X-API-Key header",
+        "security": []
       }
     },
     "/streams": {
@@ -3505,7 +3629,7 @@
             }
           }
         ],
-        "description": "Get Xeenon live streams by category or subcategory. If onlyMyStreams is true, it will only return the streams for the current user"
+        "description": "Retrieve live streams filtered by category/subcategory (use onlyMyStreams=true to get only authenticated user's streams)"
       }
     },
     "/streams/settings": {
@@ -3563,7 +3687,7 @@
           "Stream"
         ],
         "parameters": [],
-        "description": "Get the default stream settings for the current user (headline, description, tags)"
+        "description": "Retrieve authenticated user's default stream settings including headline, description, and tags"
       },
       "post": {
         "responses": {
@@ -3619,7 +3743,7 @@
           "Stream"
         ],
         "parameters": [],
-        "description": "Update the default stream settings for the current user (headline, description, tags), It also updates any live stream(s) with the new settings",
+        "description": "Update authenticated user's default stream settings (headline, description, tags) and apply to active streams",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3654,6 +3778,416 @@
             }
           }
         }
+      }
+    },
+    "/tokens": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "description": "The total number of tokens",
+                      "type": "number"
+                    },
+                    "items": {
+                      "description": "The list of tokens",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "description": "The name of the token",
+                            "type": "string"
+                          },
+                          "symbol": {
+                            "description": "The symbol of the token",
+                            "type": "string"
+                          },
+                          "image": {
+                            "description": "The image of the token",
+                            "type": "string"
+                          },
+                          "address": {
+                            "description": "The Solana address of the token",
+                            "type": "string"
+                          },
+                          "decimals": {
+                            "description": "The number of decimals of the token",
+                            "type": "number"
+                          },
+                          "url": {
+                            "description": "The URL of the token in Xeenon",
+                            "type": "string"
+                          },
+                          "price": {
+                            "description": "The current price of the token in CREDIEZ",
+                            "type": "number"
+                          },
+                          "supply": {
+                            "description": "The total supply of the token",
+                            "type": "number"
+                          },
+                          "debt": {
+                            "description": "The total amount of tokens borrowed",
+                            "type": "number"
+                          },
+                          "staked": {
+                            "description": "The total amount of tokens deposited",
+                            "type": "number"
+                          },
+                          "mCap": {
+                            "description": "The market cap of the token in CREDIEZ",
+                            "type": "number"
+                          },
+                          "volume24h": {
+                            "description": "The trading volume of the token in CREDIEZ",
+                            "type": "number"
+                          },
+                          "change24h": {
+                            "description": "The change in price of the token in the last 24 hours",
+                            "type": "number"
+                          },
+                          "creatorRewardsSplit": {
+                            "description": "The percentage of the rewards that goes to the creator",
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "symbol",
+                          "address",
+                          "decimals",
+                          "url",
+                          "price",
+                          "supply",
+                          "debt",
+                          "staked",
+                          "mCap",
+                          "volume24h",
+                          "change24h",
+                          "creatorRewardsSplit"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "items"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getTokens",
+        "tags": [
+          "Tokens"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "description": "The page number (0-n)",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "description": "The number of tokens per page",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "description": "The field to sort by",
+              "type": "string",
+              "enum": [
+                "volume24h",
+                "change24h",
+                "price",
+                "_id"
+              ]
+            }
+          }
+        ],
+        "description": "Retrieve list of tokens launched on Xeenon platform with filtering and pagination options"
+      }
+    },
+    "/tokens/activity": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "description": "The total number of activities",
+                      "type": "number"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "userAddress": {
+                            "description": "The address of the user that performed the activity",
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "The type of the activity",
+                            "type": "string",
+                            "enum": [
+                              "buy",
+                              "sell",
+                              "deposit",
+                              "withdraw",
+                              "borrow",
+                              "repay",
+                              "claim-creator-rewards",
+                              "claim-staker-rewards",
+                              "floor-raised",
+                              "new-token",
+                              "period-end"
+                            ]
+                          },
+                          "signature": {
+                            "description": "The TX signature of the activity",
+                            "type": "string"
+                          },
+                          "amount": {
+                            "description": "The number of tokens relevant to this transaction for the type buy, sell, deposit, withdraw, claim-creator-rewards, claim-staker-rewards. For borrow and repay, it is the amount of CREDIEZ borrowed or repaid. For floor-raised, it is new price of the tokens in CREDIEZ. For new-token, it is the initial price of the token in CREDIEZ. For period-end, it is the reward amount in tokens earned by stakers.",
+                            "type": "number"
+                          },
+                          "secondaryAmount": {
+                            "description": "For the types buy, sell, claim-creator-rewards, claim-staker-rewards, deposit, withdraw is the value of the activity in CREDIEZ. For period-end, it is the reward amount in CREDIEZ earned by stakers. Empty for other types.",
+                            "type": "number"
+                          },
+                          "createdAt": {
+                            "description": "The ISO date of the trade",
+                            "type": "string"
+                          },
+                          "token": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "description": "The name of the token",
+                                "type": "string"
+                              },
+                              "symbol": {
+                                "description": "The symbol of the token",
+                                "type": "string"
+                              },
+                              "image": {
+                                "description": "The image of the token",
+                                "type": "string"
+                              },
+                              "address": {
+                                "description": "The Solana address of the token",
+                                "type": "string"
+                              },
+                              "decimals": {
+                                "description": "The number of decimals of the token",
+                                "type": "number"
+                              },
+                              "url": {
+                                "description": "The URL of the token in Xeenon",
+                                "type": "string"
+                              },
+                              "price": {
+                                "description": "The current price of the token in CREDIEZ",
+                                "type": "number"
+                              },
+                              "supply": {
+                                "description": "The total supply of the token",
+                                "type": "number"
+                              },
+                              "debt": {
+                                "description": "The total amount of tokens borrowed",
+                                "type": "number"
+                              },
+                              "staked": {
+                                "description": "The total amount of tokens deposited",
+                                "type": "number"
+                              },
+                              "mCap": {
+                                "description": "The market cap of the token in CREDIEZ",
+                                "type": "number"
+                              },
+                              "volume24h": {
+                                "description": "The trading volume of the token in CREDIEZ",
+                                "type": "number"
+                              },
+                              "change24h": {
+                                "description": "The change in price of the token in the last 24 hours",
+                                "type": "number"
+                              },
+                              "creatorRewardsSplit": {
+                                "description": "The percentage of the rewards that goes to the creator",
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "symbol",
+                              "address",
+                              "decimals",
+                              "url",
+                              "price",
+                              "supply",
+                              "debt",
+                              "staked",
+                              "mCap",
+                              "volume24h",
+                              "change24h",
+                              "creatorRewardsSplit"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "userAddress",
+                          "type",
+                          "signature",
+                          "amount",
+                          "secondaryAmount",
+                          "createdAt",
+                          "token"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "total",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getUserActivity",
+        "tags": [
+          "Tokens"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "description": "Retrieve token trading and activity history for the authenticated user"
+      }
+    },
+    "/tokens/platform": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "volume24h": {
+                      "description": "The volume of the platform in the last 24 hours in CREDIEZ",
+                      "type": "number"
+                    },
+                    "change24h": {
+                      "description": "The change of the platform in the last 24 hours in %",
+                      "type": "number"
+                    },
+                    "activeTraders": {
+                      "description": "The number of active traders on the platform",
+                      "type": "number"
+                    },
+                    "activeTokens": {
+                      "description": "The number of active tokens on the platform",
+                      "type": "number"
+                    },
+                    "newTokens": {
+                      "description": "The number of new tokens launched on the platform in the last week",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "volume24h",
+                    "change24h",
+                    "activeTraders",
+                    "activeTokens",
+                    "newTokens"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getPlatformNow",
+        "tags": [
+          "Tokens"
+        ],
+        "parameters": [],
+        "description": "Retrieve current Xeenon platform statistics including 24h volume, active traders, and token counts"
       }
     },
     "/tokens/platform/history": {
@@ -3769,7 +4303,7 @@
             }
           }
         ],
-        "description": "Get the total Xeenon platform value history (debt, market cap, number of tokens launched)"
+        "description": "Retrieve historical Xeenon platform value data including debt, market cap, and token launch metrics"
       }
     },
     "/tokens/platform/activity": {
@@ -3990,226 +4524,7 @@
           "Tokens"
         ],
         "parameters": [],
-        "description": "Get the latest activity on the platform"
-      }
-    },
-    "/tokens/platform": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "volume24h": {
-                      "description": "The volume of the platform in the last 24 hours in CREDIEZ",
-                      "type": "number"
-                    },
-                    "change24h": {
-                      "description": "The change of the platform in the last 24 hours in %",
-                      "type": "number"
-                    },
-                    "activeTraders": {
-                      "description": "The number of active traders on the platform",
-                      "type": "number"
-                    },
-                    "activeTokens": {
-                      "description": "The number of active tokens on the platform",
-                      "type": "number"
-                    },
-                    "newTokens": {
-                      "description": "The number of new tokens launched on the platform in the last week",
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "volume24h",
-                    "change24h",
-                    "activeTraders",
-                    "activeTokens",
-                    "newTokens"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getPlatformNow",
-        "tags": [
-          "Tokens"
-        ],
-        "parameters": [],
-        "description": "Get the current state of the Xeenon platform (volume24h, change24h, activeTraders, activeTokens, newTokens)"
-      }
-    },
-    "/tokens": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "count": {
-                      "description": "The total number of tokens",
-                      "type": "number"
-                    },
-                    "items": {
-                      "description": "The list of tokens",
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "description": "The name of the token",
-                            "type": "string"
-                          },
-                          "symbol": {
-                            "description": "The symbol of the token",
-                            "type": "string"
-                          },
-                          "image": {
-                            "description": "The image of the token",
-                            "type": "string"
-                          },
-                          "address": {
-                            "description": "The Solana address of the token",
-                            "type": "string"
-                          },
-                          "decimals": {
-                            "description": "The number of decimals of the token",
-                            "type": "number"
-                          },
-                          "url": {
-                            "description": "The URL of the token in Xeenon",
-                            "type": "string"
-                          },
-                          "price": {
-                            "description": "The current price of the token in CREDIEZ",
-                            "type": "number"
-                          },
-                          "supply": {
-                            "description": "The total supply of the token",
-                            "type": "number"
-                          },
-                          "debt": {
-                            "description": "The total amount of tokens borrowed",
-                            "type": "number"
-                          },
-                          "staked": {
-                            "description": "The total amount of tokens deposited",
-                            "type": "number"
-                          },
-                          "mCap": {
-                            "description": "The market cap of the token in CREDIEZ",
-                            "type": "number"
-                          },
-                          "volume24h": {
-                            "description": "The trading volume of the token in CREDIEZ",
-                            "type": "number"
-                          },
-                          "change24h": {
-                            "description": "The change in price of the token in the last 24 hours",
-                            "type": "number"
-                          },
-                          "creatorRewardsSplit": {
-                            "description": "The percentage of the rewards that goes to the creator",
-                            "type": "number"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "symbol",
-                          "address",
-                          "decimals",
-                          "url",
-                          "price",
-                          "supply",
-                          "debt",
-                          "staked",
-                          "mCap",
-                          "volume24h",
-                          "change24h",
-                          "creatorRewardsSplit"
-                        ],
-                        "additionalProperties": false
-                      }
-                    }
-                  },
-                  "required": [
-                    "count",
-                    "items"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getTokens",
-        "tags": [
-          "Tokens"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "schema": {
-              "description": "The page number (0-n)",
-              "type": "number"
-            }
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "description": "The number of tokens per page",
-              "type": "number"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sort",
-            "schema": {
-              "description": "The field to sort by",
-              "type": "string",
-              "enum": [
-                "volume24h",
-                "change24h",
-                "price",
-                "_id"
-              ]
-            }
-          }
-        ],
-        "description": "Get the list of tokens launched in Xeenon"
+        "description": "Retrieve recent token trading activity and transactions across the entire Xeenon platform"
       }
     },
     "/tokens/portfolio": {
@@ -4392,7 +4707,7 @@
           "Tokens"
         ],
         "parameters": [],
-        "description": "Get the details of the current user portfolio"
+        "description": "Retrieve authenticated user's complete token portfolio with positions, values, and performance data"
       }
     },
     "/tokens/portfolio/history": {
@@ -4509,7 +4824,7 @@
             }
           }
         ],
-        "description": "Get the historic value of the current user portfolio"
+        "description": "Retrieve historical value progression of authenticated user's token portfolio over time"
       }
     },
     "/tokens/claimed-rewards-history": {
@@ -4611,7 +4926,7 @@
             }
           }
         ],
-        "description": "Get the historic claimed rewards of the current user"
+        "description": "Retrieve historical record of rewards claimed by the authenticated user from token staking"
       }
     },
     "/tokens/claimed-rewards-summary": {
@@ -4664,198 +4979,7 @@
           "Tokens"
         ],
         "parameters": [],
-        "description": "Get the summary of the claimed rewards of the current user"
-      }
-    },
-    "/tokens/activity": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "total": {
-                      "description": "The total number of activities",
-                      "type": "number"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "userAddress": {
-                            "description": "The address of the user that performed the activity",
-                            "type": "string"
-                          },
-                          "type": {
-                            "description": "The type of the activity",
-                            "type": "string",
-                            "enum": [
-                              "buy",
-                              "sell",
-                              "deposit",
-                              "withdraw",
-                              "borrow",
-                              "repay",
-                              "claim-creator-rewards",
-                              "claim-staker-rewards",
-                              "floor-raised",
-                              "new-token",
-                              "period-end"
-                            ]
-                          },
-                          "signature": {
-                            "description": "The TX signature of the activity",
-                            "type": "string"
-                          },
-                          "amount": {
-                            "description": "The number of tokens relevant to this transaction for the type buy, sell, deposit, withdraw, claim-creator-rewards, claim-staker-rewards. For borrow and repay, it is the amount of CREDIEZ borrowed or repaid. For floor-raised, it is new price of the tokens in CREDIEZ. For new-token, it is the initial price of the token in CREDIEZ. For period-end, it is the reward amount in tokens earned by stakers.",
-                            "type": "number"
-                          },
-                          "secondaryAmount": {
-                            "description": "For the types buy, sell, claim-creator-rewards, claim-staker-rewards, deposit, withdraw is the value of the activity in CREDIEZ. For period-end, it is the reward amount in CREDIEZ earned by stakers. Empty for other types.",
-                            "type": "number"
-                          },
-                          "createdAt": {
-                            "description": "The ISO date of the trade",
-                            "type": "string"
-                          },
-                          "token": {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "description": "The name of the token",
-                                "type": "string"
-                              },
-                              "symbol": {
-                                "description": "The symbol of the token",
-                                "type": "string"
-                              },
-                              "image": {
-                                "description": "The image of the token",
-                                "type": "string"
-                              },
-                              "address": {
-                                "description": "The Solana address of the token",
-                                "type": "string"
-                              },
-                              "decimals": {
-                                "description": "The number of decimals of the token",
-                                "type": "number"
-                              },
-                              "url": {
-                                "description": "The URL of the token in Xeenon",
-                                "type": "string"
-                              },
-                              "price": {
-                                "description": "The current price of the token in CREDIEZ",
-                                "type": "number"
-                              },
-                              "supply": {
-                                "description": "The total supply of the token",
-                                "type": "number"
-                              },
-                              "debt": {
-                                "description": "The total amount of tokens borrowed",
-                                "type": "number"
-                              },
-                              "staked": {
-                                "description": "The total amount of tokens deposited",
-                                "type": "number"
-                              },
-                              "mCap": {
-                                "description": "The market cap of the token in CREDIEZ",
-                                "type": "number"
-                              },
-                              "volume24h": {
-                                "description": "The trading volume of the token in CREDIEZ",
-                                "type": "number"
-                              },
-                              "change24h": {
-                                "description": "The change in price of the token in the last 24 hours",
-                                "type": "number"
-                              },
-                              "creatorRewardsSplit": {
-                                "description": "The percentage of the rewards that goes to the creator",
-                                "type": "number"
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "symbol",
-                              "address",
-                              "decimals",
-                              "url",
-                              "price",
-                              "supply",
-                              "debt",
-                              "staked",
-                              "mCap",
-                              "volume24h",
-                              "change24h",
-                              "creatorRewardsSplit"
-                            ],
-                            "additionalProperties": false
-                          }
-                        },
-                        "required": [
-                          "userAddress",
-                          "type",
-                          "signature",
-                          "amount",
-                          "secondaryAmount",
-                          "createdAt",
-                          "token"
-                        ],
-                        "additionalProperties": false
-                      }
-                    }
-                  },
-                  "required": [
-                    "total",
-                    "data"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "const": "Unauthorized"
-                }
-              }
-            }
-          }
-        },
-        "operationId": "getUserActivity",
-        "tags": [
-          "Tokens"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "description": "Get the activity of the current user"
+        "description": "Retrieve current month and previous month summary of rewards claimed by authenticated user"
       }
     },
     "/tokens/{tokenAddress}": {
@@ -4971,7 +5095,7 @@
             "required": true
           }
         ],
-        "description": "Get the details of a token"
+        "description": "Retrieve detailed information about a specific token by its Solana address"
       }
     },
     "/tokens/{tokenAddress}/price-history": {
@@ -5071,7 +5195,7 @@
             }
           }
         ],
-        "description": "Get the price history of a token"
+        "description": "Retrieve historical price data and floor values for a specific token over time"
       }
     },
     "/tokens/{tokenAddress}/trades": {
@@ -5244,7 +5368,7 @@
             }
           }
         ],
-        "description": "Get the trades of a token"
+        "description": "Retrieve buy/sell trade history for a specific token with user information"
       }
     },
     "/tokens/{tokenAddress}/activity": {
@@ -5424,7 +5548,7 @@
             }
           }
         ],
-        "description": "Get the activity of a token"
+        "description": "Retrieve all trading and staking activity for a specific token including transactions and user data"
       }
     },
     "/tokens/{tokenAddress}/debt-positions-count": {
@@ -5476,7 +5600,7 @@
             "required": true
           }
         ],
-        "description": "Get the number of active debt positions of a token"
+        "description": "Retrieve count of active debt positions (borrowed against) for a specific token"
       }
     },
     "/tokens/{tokenAddress}/rewards-performance-summary": {
@@ -5538,7 +5662,7 @@
             "required": true
           }
         ],
-        "description": "Get the rewards performance summary of a token (number of times the token won a position in the leaderboard in the last year, average rewards earned in the last three months in tokens, total rewards earned in the last three months in tokens)"
+        "description": "Retrieve token rewards performance metrics including leaderboard wins and 3-month reward statistics"
       }
     },
     "/tokens/{tokenAddress}/holders-summary": {
@@ -5605,7 +5729,7 @@
             "required": true
           }
         ],
-        "description": "Get the holders summary of a token (total holders, new holders in the last week, total stakers, top 10 holdings)"
+        "description": "Retrieve token holder statistics including total holders, new holders, stakers, and top holdings distribution"
       }
     },
     "/users/{addressOrMe}": {
@@ -5715,7 +5839,7 @@
             "required": true
           }
         ],
-        "description": "Get a user public profile by their Solana address or get the current user profile"
+        "description": "Retrieve user public profile by Solana address or get authenticated user profile (use \"me\" as parameter)"
       }
     }
   }
