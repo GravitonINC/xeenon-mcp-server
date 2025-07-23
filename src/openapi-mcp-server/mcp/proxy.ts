@@ -1,5 +1,5 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js'
-import { CallToolRequestSchema, JSONRPCResponse, ListToolsRequestSchema, Tool } from '@modelcontextprotocol/sdk/types.js'
+import { CallToolRequestSchema,ListToolsRequestSchema, Tool, ListResourcesRequestSchema, ReadResourceRequestSchema, Resource } from '@modelcontextprotocol/sdk/types.js'
 import { JSONSchema7 as IJsonSchema } from 'json-schema'
 import { OpenAPIToMCPConverter } from '../openapi/parser'
 import { HttpClient, HttpClientError } from '../client/http-client'
@@ -29,9 +29,11 @@ export class MCPProxy {
   private httpClient: HttpClient
   private tools: Record<string, NewToolDefinition>
   private openApiLookup: Record<string, OpenAPIV3.OperationObject & { method: string; path: string }>
+  private openApiSpec: OpenAPIV3.Document
 
   constructor(name: string, openApiSpec: OpenAPIV3.Document) {
-    this.server = new Server({ name, version: '1.0.0' }, { capabilities: { tools: {} } })
+    this.server = new Server({ name, version: '1.0.0' }, { capabilities: { tools: {}, resources: {} } })
+    this.openApiSpec = openApiSpec
     const baseUrl = openApiSpec.servers?.[0].url
     if (!baseUrl) {
       throw new Error('No base URL found in OpenAPI spec')
@@ -72,6 +74,41 @@ export class MCPProxy {
       })
 
       return { tools }
+    })
+
+    // Handle resource listing
+    this.server.setRequestHandler(ListResourcesRequestSchema, async () => {
+      const resources: Resource[] = [
+        {
+          uri: 'openapi://spec/remote',
+          name: 'Xeenon OpenAPI Specification',
+          mimeType: 'text/plain'
+        }
+      ]
+
+      return { resources }
+    })
+
+    // Handle resource reading
+    this.server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+      const { uri } = request.params
+
+      if (uri === 'openapi://spec/remote') {
+        // Return the remote OpenAPI spec URL
+        const remoteUrl = this.openApiSpec.servers?.[0]?.url + '/openapi'
+        const content = await fetch(remoteUrl).then(res => res.json())
+        return {
+          contents: [
+            {
+              uri: uri,
+              mimeType: 'text/plain',
+              text: JSON.stringify(content)
+            }
+          ]
+        }
+      }
+
+      throw new Error(`Unknown resource URI: ${uri}`)
     })
 
     // Handle tool calling
