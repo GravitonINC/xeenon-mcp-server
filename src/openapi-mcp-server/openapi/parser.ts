@@ -3,6 +3,8 @@ import type { JSONSchema7 as IJsonSchema } from 'json-schema';
 import type { ChatCompletionTool } from 'openai/resources/chat/completions';
 import type { Tool } from '@anthropic-ai/sdk/resources/messages/messages';
 
+const skipOperations = ['getPlatformNow', 'getPlatformValueHistory']
+
 type NewToolMethod = {
   name: string;
   description: string;
@@ -286,7 +288,6 @@ export class OpenAPIToMCPConverter {
           method,
           path
         );
-        const skipOperations = ['getPlatformNow', 'getPlatformValueHistory']
         if (skipOperations.includes(operation.operationId!)) continue;
         const tool: ChatCompletionTool = {
           type: 'function',
@@ -324,6 +325,7 @@ export class OpenAPIToMCPConverter {
           method,
           path
         );
+        if (skipOperations.includes(operation.operationId!)) continue;
         const tool: Tool = {
           name: operation.operationId!,
           description: this.getDescription(
@@ -480,6 +482,7 @@ export class OpenAPIToMCPConverter {
       console.warn(`Operation without operationId at ${method} ${path}`);
       return null;
     }
+    if (skipOperations.includes(operation.operationId!)) return null;
 
     const methodName = operation.operationId;
 
