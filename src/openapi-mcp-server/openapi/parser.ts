@@ -286,6 +286,8 @@ export class OpenAPIToMCPConverter {
           method,
           path
         );
+        const skipOperations = ['getPlatformNow', 'getPlatformValueHistory']
+        if (skipOperations.includes(operation.operationId!)) continue;
         const tool: ChatCompletionTool = {
           type: 'function',
           function: {

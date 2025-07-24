@@ -5841,6 +5841,40 @@
         ],
         "description": "Retrieve user public profile by Solana address or get authenticated user profile (use \"me\" as parameter)"
       }
+    },
+    "/openapi": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.1 JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "\nXeenon OpenAPI documentation."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "const": "Unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getOpenapi",
+        "tags": [
+          "OpenAPI"
+        ],
+        "parameters": [],
+        "description": "Xeenon OpenAPI documentation",
+        "security": []
+      }
     }
   }
 }
